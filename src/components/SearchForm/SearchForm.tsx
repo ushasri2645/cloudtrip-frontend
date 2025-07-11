@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useCities } from "../../hooks/useCities";
 import type { FlightSearchFormData } from "../../types/FlightSearchForm";
 import { Button } from "../Button/Button";
 import styles from "./SearchForm.module.css";
@@ -12,7 +13,14 @@ export function FlightSearchForm() {
     class_type: "economy",
   });
 
-  const cities = ["New York", "Los Angeles", "London", "Paris", "Tokyo"];
+  const [loading, setLoading] = useState(false);
+  const { cities, refetch } = useCities();
+
+  const refresh = async () => {
+    setLoading(true);
+    await refetch();
+    setLoading(false);
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -23,23 +31,17 @@ export function FlightSearchForm() {
     });
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log("Search form data:", formData);
-  };
-
   return (
     <div>
       <div className={styles.hero}>
         <h1>Travel Beyond Boundaries</h1>
       </div>
-
       <div className={styles.container}>
         <p className={styles.subHeader}>
           Search for flights to your dream destinations and book with ease.
         </p>
-
-        <form onSubmit={handleSubmit}>
+        
+        <form>
           <div className={styles.formGroup}>
             <div className={styles.labelInput}>
               <label htmlFor="source">Source:</label>
@@ -114,6 +116,15 @@ export function FlightSearchForm() {
             <Button type="submit">Search Flights</Button>
           </div>
         </form>
+
+        <button
+          type="button"
+          onClick={refresh}
+          disabled={loading}
+          className={styles.refreshBtn}
+        >
+          {loading ? "..." : "Refresh Cities"}
+        </button>
 
         <datalist id="source-list">
           {cities.map((city) => (
