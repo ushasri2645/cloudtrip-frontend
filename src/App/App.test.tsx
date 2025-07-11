@@ -1,10 +1,17 @@
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
 import { App } from "./App";
 
-describe("Test for App file", () => {
-  it("should render the welcome message", () => {
+describe("App Component", () => {
+  it("renders the Navbar component", () => {
     render(<App />);
-    expect(screen.getByText(/Welcome to Cloud Trip/i)).toBeTruthy();
+    const brandName = screen.getByText(/CloudTrip/i);
+    expect(brandName).toBeInTheDocument();
+  });
+
+  it("renders the navigation element", () => {
+    render(<App />);
+    const nav = screen.getByRole("navigation");
+    expect(nav).toBeInTheDocument();
   });
 });

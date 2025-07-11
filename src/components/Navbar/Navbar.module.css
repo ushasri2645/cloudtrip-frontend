@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import '../../styles/theme.css'; 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: var(--card-bg);
+  font-family: var(--font-family-inter);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+}
+
+.brandName {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--header-text);
+  margin-top: 9px;
+}
