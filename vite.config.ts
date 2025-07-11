@@ -12,6 +12,7 @@ export default defineConfig({
         "vite.config.*",
         "eslint.config.*",
         "src/main.tsx",
+        "src/types",
       ],
     },
   },
