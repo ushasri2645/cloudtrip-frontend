@@ -1,11 +1,11 @@
-import styles from './App.module.css'
+import Footer from "../components/Footer/Footer";
+import Navbar from "../components/Navbar/Navbar";
 
 export function App() {
   return (
-     <div>
-      <h1 className={styles.header}>Welcome to Cloud Trip</h1>
+    <div>
+      <Navbar />
+      <Footer />
     </div>
   );
 }
-
-

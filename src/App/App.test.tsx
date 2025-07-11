@@ -1,10 +1,17 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
-import { App } from "./App";
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { App } from './App';
 
-describe("Test for App file", () => {
-  it("should render the welcome message", () => {
+describe('App Component', () => {
+  it('renders Navbar component', () => {
     render(<App />);
-    expect(screen.getByText(/Welcome to Cloud Trip/i)).toBeTruthy();
+    const navTextInstances = screen.getAllByText(/CloudTrip/i);
+    expect(navTextInstances.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('renders Footer component', () => {
+    render(<App />);
+    const footerText = screen.getByText(/All rights reserved/i);
+    expect(footerText).toBeInTheDocument();
   });
 });
