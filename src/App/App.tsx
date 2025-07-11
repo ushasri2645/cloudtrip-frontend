@@ -1,11 +1,11 @@
-function App() {
+import styles from './App.module.css'
+
+export function App() {
   return (
-    <div>
-      <h1>
-        Welcome to Cloud Trip
-      </h1>
+     <div>
+      <h1 className={styles.header}>Welcome to Cloud Trip</h1>
     </div>
   );
 }
 
-export default App;
+
