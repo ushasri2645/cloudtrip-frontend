@@ -1,11 +1,8 @@
-import styles from './App.module.css'
-
+import Navbar from "../components/Navbar/Navbar";
 export function App() {
   return (
-     <div>
-      <h1 className={styles.header}>Welcome to Cloud Trip</h1>
+    <div>
+      <Navbar />
     </div>
   );
 }
-
-
