@@ -2,8 +2,6 @@
 
 CloudTrip is a simple yet powerful **flight booking system** built with Ruby that enables users to search and book flights based on multiple criteria. The application uses **file-based storage** (`data.txt`) to manage flight availability and booking information.
 
----
-
 ## 📌 Features
 
 ### Basic Flight Search
@@ -24,7 +22,7 @@ CloudTrip is a simple yet powerful **flight booking system** built with Ruby tha
 
 ### Filter by Class Type
 - Choose between:
-  - Economic
+  - Economy
   - Second
   - First class
 - Results show only flights with seats available in the selected class.
@@ -40,18 +38,14 @@ CloudTrip is a simple yet powerful **flight booking system** built with Ruby tha
 - Seat-based pricing
 - Date-based pricing
 
-### ✅ Round Trip Support *(Optional)*
+### ✅ Round Trip Support 
 - Book **round trips** with a **5% discount**.
 - Return flights must also match passenger and class criteria.
 
----
-
-## 📁 File-Based Storage
-
-### 📄 `data.txt` Format:
-```text
-FlightID, "From", "To", DepartureTime, ArrivalTime, ClassType, BasePrice, AvailableSeats
-```
+## TechStack
+- Vite + React
+- Typescript
+- vitest
 
 ## 🚀 Installation
 

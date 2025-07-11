@@ -1,17 +1,17 @@
-import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
-import { App } from "./App";
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { App } from './App';
 
-describe("App Component", () => {
-  it("renders the Navbar component", () => {
+describe('App Component', () => {
+  it('renders Navbar component', () => {
     render(<App />);
-    const brandName = screen.getByText(/CloudTrip/i);
-    expect(brandName).toBeInTheDocument();
+    const navTextInstances = screen.getAllByText(/CloudTrip/i);
+    expect(navTextInstances.length).toBeGreaterThanOrEqual(1);
   });
 
-  it("renders the navigation element", () => {
+  it('renders Footer component', () => {
     render(<App />);
-    const nav = screen.getByRole("navigation");
-    expect(nav).toBeInTheDocument();
+    const footerText = screen.getByText(/All rights reserved/i);
+    expect(footerText).toBeInTheDocument();
   });
 });
