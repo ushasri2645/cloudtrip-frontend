@@ -1,0 +1,7 @@
+export interface FlightSearchFormData {
+  source: string;
+  destination: string;
+  date: string;
+  passengers: number;
+  class_type: "economy" | "business" | "first_class";
+}
