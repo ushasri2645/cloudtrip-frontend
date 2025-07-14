@@ -1,0 +1,100 @@
+.box {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 2rem;
+}
+
+.flightCard {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.flightCardContent {
+    padding: 0.5rem;
+}
+
+.flightCardHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.route {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-button, #298A45);
+}
+
+.flightNumber {
+    font-weight: 600;
+    color: var(--primary-button, #298A45);
+}
+
+.flightCardDetails {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.detailBlock {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.95rem;
+    gap: 3px;
+    color: var(--body-text, #374151);
+}
+
+.flightCardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+    column-gap: 2rem;
+    gap: 20px;
+}
+
+.totalFare {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-button, #298A45);
+    margin-top: 0.5rem;
+}
+
+.fareBreakdown {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--body-text, #374151);
+}
+
+.fareBreakdown span {
+    font-weight: bold;
+    margin-left: 0.3rem;
+}
+
+.book {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+}
+
+.bookButton {
+
+    background-color: #298A45;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    border-color: white;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.bookButton:hover {
+    background-color: #256e3c;
+    transform: scale(1.03);
+}
