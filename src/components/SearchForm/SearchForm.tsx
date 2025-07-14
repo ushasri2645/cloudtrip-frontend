@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useCities } from "../../hooks/useCities";
+import { fetchFlights } from "../../services/FetchFlights";
 import type { FlightSearchFormData } from "../../types/FlightSearchForm";
+import type { FlightSearchResult } from "../../types/FlightSearchResult";
 import { Button } from "../Button/Button";
+import { FlightsDisplay } from "../FlightsDisplay/FlightsDisplay";
 import styles from "./SearchForm.module.css";
 
 export function FlightSearchForm() {
@@ -14,6 +17,8 @@ export function FlightSearchForm() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [flights, setFlights] = useState<FlightSearchResult[]>([]);
+  const [searched, setSearched] = useState(false);
   const { cities, refetch } = useCities();
 
   const refresh = async () => {
@@ -31,6 +36,19 @@ export function FlightSearchForm() {
     });
   };
 
+  const getFlights = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const results = await fetchFlights(formData);
+      setFlights(results);
+      setSearched(true);
+    } catch (error) {
+      setSearched(false);
+      alert(`Error fetching flights ${(error as Error).message}`);
+      setFlights([]);
+    }
+  };
+
   return (
     <div>
       <div className={styles.hero}>
@@ -40,8 +58,8 @@ export function FlightSearchForm() {
         <p className={styles.subHeader}>
           Search for flights to your dream destinations and book with ease.
         </p>
-        
-        <form>
+
+        <form onSubmit={getFlights}>
           <div className={styles.formGroup}>
             <div className={styles.labelInput}>
               <label htmlFor="source">Source:</label>
@@ -138,6 +156,9 @@ export function FlightSearchForm() {
           ))}
         </datalist>
       </div>
+      {searched && (
+        <FlightsDisplay flights={flights} passengers={formData.passengers} />
+      )}
     </div>
   );
 }

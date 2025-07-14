@@ -1,11 +1,16 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { FlightSearchForm } from "./SearchForm";
-
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import {
   CitiesContext,
   type CitiesContextType,
 } from "../../contexts/Cities/CitiesContext";
+import { fetchFlights } from "../../services/FetchFlights";
+import type { FlightSearchResult } from "../../types/FlightSearchResult";
+import { FlightSearchForm } from "./SearchForm";
+
+vi.mock("../../services/FetchFlights", () => ({
+  fetchFlights: vi.fn(),
+}));
 
 const renderWithCitiesContext = (
   mockContext: Partial<CitiesContextType> = {}
@@ -114,4 +119,61 @@ describe("Test for FlightSearchForm />", () => {
     });
     expect(classSelect).toHaveValue("business");
   });
+
+  it("should submit the form and displays flights on success", async () => {
+    const mockFlights : FlightSearchResult[] = [
+      {
+        flight_number: "F100",
+        source: "Mumbai",
+        destination: "Delhi",
+        departure_time: "2025-08-01T10:00:00Z",
+        arrival_time: "2025-08-01T14:00:00Z",
+        total_fare: 500,
+        departure_date: "2025-08-01",
+        arrival_date: "2025-08-01",
+        class_type: "economy",
+        economy_seats: 10,
+        business_seats: 10,
+        first_class_seats: 10,
+        price_per_person: 10,
+        base_price: 10,
+        extra_price: 10
+      },
+    ];
+    vi.mocked(fetchFlights).mockResolvedValue(mockFlights);
+    renderWithCitiesContext();
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: "2025-08-01" },
+    });
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+    await waitFor(() => {
+      expect(fetchFlights).toHaveBeenCalled();
+    });
+    expect(screen.getByText(/F100/i)).toBeInTheDocument();
+  });
+
+  it("should throw error if getFlights fails after search is clicked",async()=>{
+    vi.mocked(fetchFlights).mockRejectedValueOnce(new Error("Failed to fetch"));
+    window.alert = vi.fn();
+    renderWithCitiesContext();
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: "2025-08-01" },
+    });
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+    await waitFor(() => {
+      expect(fetchFlights).toHaveBeenCalled();
+    });
+  })
 });
