@@ -14,8 +14,8 @@ export function FlightsDisplay({ flights, passengers }: Props) {
 
   return (
     <div className={styles.container}>
-      {flights.map((flight) => {
-        return <FlightDisplay flight={flight} passengers={passengers} />
+      {flights.map((flight,index) => {
+        return <FlightDisplay key={index} flight={flight} passengers={passengers} />
       })}
     </div>
   );
