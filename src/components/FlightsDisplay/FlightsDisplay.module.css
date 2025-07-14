@@ -1,0 +1,34 @@
+.container {
+  max-width: 100%;
+  width: 90%;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  font-family: var(--font-family-inter);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px
+}
+
+.noFlights {
+  text-align: center;
+  font-size: 1.1rem;
+  color: black;
+  background-color: var(--flash-bg);
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  width: fit-content;
+
+}
+
+.flash {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
