@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { API_URL } from "../../constants/api";
 import type { FlightSearchFormData } from "../../types/FlightSearchForm";
 import type { FlightSearchResult } from "../../types/FlightSearchResult";
-import { API_URL } from "../../constants/api";
 import { fetchFlights } from "../FetchFlights";
 
 const mockFormData: FlightSearchFormData = {
@@ -36,7 +36,7 @@ describe("Tests for fetchFlights service", () => {
   });
 
   it("should return flights when API call is successful", async () => {
-   global.fetch = vi.fn().mockResolvedValue({
+    global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: vi.fn().mockResolvedValue({
         flights: mockFlights,
@@ -45,16 +45,13 @@ describe("Tests for fetchFlights service", () => {
 
     const flights = await fetchFlights(mockFormData);
 
-    expect(global.fetch).toHaveBeenCalledWith(
-      `${API_URL}/flights`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(mockFormData),
-      }
-    );
+    expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/flights`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(mockFormData),
+    });
     expect(flights).toEqual(mockFlights);
   });
 
