@@ -13,14 +13,18 @@ export const fetchFlights = async (
       },
       body: JSON.stringify(formData),
     });
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch flights");
-    }
-
     const data = await response.json();
+    if (!response.ok) {
+      const errorMessages = data.errors
+        ? data.errors.join(", ")
+        : "Unknown error";
+      throw new Error(errorMessages);
+    }
     return data.flights;
   } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error("Network Error. Try again later");
+    }
     throw new Error(`${(error as Error).message}`);
   }
 };
