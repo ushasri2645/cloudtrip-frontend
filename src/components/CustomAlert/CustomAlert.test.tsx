@@ -17,7 +17,7 @@ describe("Tests for CustomAlert Component", () => {
     const onClose = vi.fn();
 
     render(<CustomAlert message={message} failure={true} onClose={onClose} />);
-    expect(screen.getByText("Booking Failed")).toBeInTheDocument();
+    expect(screen.getByText("Failed")).toBeInTheDocument();
     expect(screen.getByText(message)).toBeInTheDocument();
   });
 
