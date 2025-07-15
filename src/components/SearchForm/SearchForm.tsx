@@ -49,6 +49,14 @@ export function FlightSearchForm() {
     }
   };
 
+  const handleSwap = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      source: prevData.destination,
+      destination: prevData.source,
+    }));
+  };
+  
   return (
     <div>
       <div className={styles.hero}>
@@ -73,7 +81,12 @@ export function FlightSearchForm() {
                 required
               />
             </div>
-
+            <button
+              type="button"
+              className={styles.swapButton}
+              onClick={handleSwap}
+              aria-label="Swap"
+            ></button>
             <div className={styles.labelInput}>
               <label htmlFor="destination">Destination:</label>
               <input
