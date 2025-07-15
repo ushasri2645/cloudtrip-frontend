@@ -55,21 +55,48 @@ describe("Tests for fetchFlights service", () => {
     expect(flights).toEqual(mockFlights);
   });
 
-  it("should throw an error when response is not ok", async () => {
+  it("should throw error when source destination are same", async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: false,
-      status: 500,
+      json: vi.fn().mockResolvedValue({
+        errors: ["Source and destination must be different"],
+      }),
+    });
+    mockFormData.source = "Banglore";
+    mockFormData.destination = "Banglore";
+    await expect(fetchFlights(mockFormData)).rejects.toThrow(
+      "Source and destination must be different"
+    );
+    expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/flights`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(mockFormData),
+    });
+  });
+  it("should throw 'Unknown error' when errors key is missing in response", async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: false,
       json: vi.fn().mockResolvedValue({}),
     });
 
-    await expect(fetchFlights(mockFormData)).rejects.toThrow(
-      "Failed to fetch flights"
-    );
+    await expect(fetchFlights(mockFormData)).rejects.toThrow("Unknown error");
+    expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/flights`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(mockFormData),
+    });
   });
+  it("should throw network error message when fetch fails", async () => {
+    global.fetch = vi.fn().mockRejectedValue(new TypeError("Network down"));
 
-  it("should throw an error when fetch itself fails", async () => {
-    global.fetch = vi.fn().mockRejectedValue(new Error("Network failure"));
+    await expect(fetchFlights(mockFormData)).rejects.toThrow(
+      "Network Error. Try again later"
+    );
 
-    await expect(fetchFlights(mockFormData)).rejects.toThrow("Network failure");
+    expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/flights`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(mockFormData),
+    });
   });
 });
