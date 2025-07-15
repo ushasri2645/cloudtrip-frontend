@@ -92,7 +92,7 @@ describe("FlightDisplay", () => {
     await waitFor(() => {
       expect(screen.getByText("Something went wrong")).toBeInTheDocument();
     });
-    expect(screen.getByText("Booking Failed")).toBeInTheDocument();
+    expect(screen.getByText("Failed")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "OK" }));
     expect(window.location.href).not.toBe("/");
   });
