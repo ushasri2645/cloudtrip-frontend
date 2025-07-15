@@ -25,12 +25,12 @@ const mockFlights: FlightSearchResult[] = [
 describe("FlightsDisplay", () => {
   it("should render a message when there are no flights", () => {
     render(<FlightsDisplay flights={[]} passengers={2} />);
-    expect(screen.getByText("No flights found.")).toBeInTheDocument();
+    expect(screen.getByText("No flights found")).toBeInTheDocument();
   });
 
   it("should render flight results when flights are available", () => {
     render(<FlightsDisplay flights={mockFlights} passengers={2} />);
     expect(screen.getByText("Flight AB123")).toBeInTheDocument();
-    expect(screen.queryByText("No flights found.")).not.toBeInTheDocument();
+    expect(screen.queryByText("No flights found")).not.toBeInTheDocument();
   });
 });
