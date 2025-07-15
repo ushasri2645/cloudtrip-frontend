@@ -9,7 +9,7 @@ type Props = {
 
 export function FlightsDisplay({ flights, passengers }: Props) {
   if (flights.length === 0) {
-    return <div className={styles.flash} ><p className={styles.noFlights}>No flights found.</p></div>;
+    return <div className={styles.flash} ><p className={styles.noFlights}>No flights found</p></div>;
   }
 
   return (
