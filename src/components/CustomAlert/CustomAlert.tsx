@@ -20,7 +20,7 @@ export const CustomAlert: React.FC<CustomAlertProps> = ({
             failure ? styles.failureTitle : styles.successTitle
           }`}
         >
-          {failure ? "Booking Failed" : "Success"}
+          {failure ? "Failed" : "Success"}
         </p>
         <p>{message}</p>
         <button onClick={onClose}>OK</button>

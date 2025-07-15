@@ -121,7 +121,7 @@ describe("Test for FlightSearchForm />", () => {
   });
 
   it("should submit the form and displays flights on success", async () => {
-    const mockFlights : FlightSearchResult[] = [
+    const mockFlights: FlightSearchResult[] = [
       {
         flight_number: "F100",
         source: "Mumbai",
@@ -137,7 +137,7 @@ describe("Test for FlightSearchForm />", () => {
         first_class_seats: 10,
         price_per_person: 10,
         base_price: 10,
-        extra_price: 10
+        extra_price: 10,
       },
     ];
     vi.mocked(fetchFlights).mockResolvedValue(mockFlights);
@@ -158,7 +158,7 @@ describe("Test for FlightSearchForm />", () => {
     expect(screen.getByText(/F100/i)).toBeInTheDocument();
   });
 
-  it("should throw error if getFlights fails after search is clicked",async()=>{
+  it("should throw error if getFlights fails after search is clicked", async () => {
     vi.mocked(fetchFlights).mockRejectedValueOnce(new Error("Failed to fetch"));
     window.alert = vi.fn();
     renderWithCitiesContext();
@@ -175,12 +175,14 @@ describe("Test for FlightSearchForm />", () => {
     await waitFor(() => {
       expect(fetchFlights).toHaveBeenCalled();
     });
-  })
- it("swaps source and destination when swap button is clicked", () => {
+  });
+  it("swaps source and destination when swap button is clicked", () => {
     renderWithCitiesContext();
 
     const sourceInput = screen.getByLabelText("Source:") as HTMLInputElement;
-    const destinationInput = screen.getByLabelText("Destination:") as HTMLInputElement;
+    const destinationInput = screen.getByLabelText(
+      "Destination:"
+    ) as HTMLInputElement;
     fireEvent.change(sourceInput, { target: { value: "Bangalore" } });
     fireEvent.change(destinationInput, { target: { value: "London" } });
     expect(sourceInput.value).toBe("Bangalore");
@@ -192,4 +194,29 @@ describe("Test for FlightSearchForm />", () => {
     expect(sourceInput.value).toBe("London");
     expect(destinationInput.value).toBe("Bangalore");
   });
+
+  it("should close the custom alert when onClose is clicked", async () => {
+    vi.mocked(fetchFlights).mockRejectedValueOnce(new Error("Some error"));
+    renderWithCitiesContext();
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: "2025-08-01" },
+    });
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+    await waitFor(() => {
+      expect(fetchFlights).toHaveBeenCalled();
+    });
+    const closeBtn = screen.getByRole("button", { name: /OK/i });
+    fireEvent.click(closeBtn);
+    expect(screen.queryByText(/some error/i)).not.toBeInTheDocument();
+  });
 });
+
+
+
+
