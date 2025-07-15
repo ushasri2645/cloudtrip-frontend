@@ -176,4 +176,20 @@ describe("Test for FlightSearchForm />", () => {
       expect(fetchFlights).toHaveBeenCalled();
     });
   })
+ it("swaps source and destination when swap button is clicked", () => {
+    renderWithCitiesContext();
+
+    const sourceInput = screen.getByLabelText("Source:") as HTMLInputElement;
+    const destinationInput = screen.getByLabelText("Destination:") as HTMLInputElement;
+    fireEvent.change(sourceInput, { target: { value: "Bangalore" } });
+    fireEvent.change(destinationInput, { target: { value: "London" } });
+    expect(sourceInput.value).toBe("Bangalore");
+    expect(destinationInput.value).toBe("London");
+    const swapButton = screen.getByRole("button", {
+      name: /swap/i,
+    });
+    fireEvent.click(swapButton);
+    expect(sourceInput.value).toBe("London");
+    expect(destinationInput.value).toBe("Bangalore");
+  });
 });
