@@ -6,6 +6,7 @@ import type { FlightSearchResult } from "../../types/FlightSearchResult";
 import { Button } from "../Button/Button";
 import { FlightsDisplay } from "../FlightsDisplay/FlightsDisplay";
 import styles from "./SearchForm.module.css";
+import { CustomAlert } from "../CustomAlert/CustomAlert";
 
 export function FlightSearchForm() {
   const [formData, setFormData] = useState<FlightSearchFormData>({
@@ -20,6 +21,8 @@ export function FlightSearchForm() {
   const [flights, setFlights] = useState<FlightSearchResult[]>([]);
   const [searched, setSearched] = useState(false);
   const { cities, refetch } = useCities();
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [failure, setFailure] = useState(false);
 
   const refresh = async () => {
     setLoading(true);
@@ -42,10 +45,11 @@ export function FlightSearchForm() {
       const results = await fetchFlights(formData);
       setFlights(results);
       setSearched(true);
+      setFailure(false);
     } catch (error) {
       setSearched(false);
-      alert(`Error fetching flights ${(error as Error).message}`);
-      setFlights([]);
+      setAlertMessage((error as Error).message);
+      setFailure(true);
     }
   };
 
@@ -56,7 +60,7 @@ export function FlightSearchForm() {
       destination: prevData.source,
     }));
   };
-  
+
   return (
     <div>
       <div className={styles.hero}>
@@ -66,7 +70,13 @@ export function FlightSearchForm() {
         <p className={styles.subHeader}>
           Search for flights to your dream destinations and book with ease.
         </p>
-
+        {alertMessage && (
+          <CustomAlert
+            message={alertMessage}
+            failure={failure}
+            onClose={() => setAlertMessage(null)}
+          />
+        )}
         <form onSubmit={getFlights}>
           <div className={styles.formGroup}>
             <div className={styles.labelInput}>
