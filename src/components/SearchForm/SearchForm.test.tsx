@@ -326,4 +326,86 @@ describe("Test for FlightSearchForm />", () => {
       expect(screen.queryByRole("button", { name: /Next/i })).not.toBeInTheDocument();
     });
   });
+
+  it("should disable previous button if date is today", async () => {
+    const today = new Date().toISOString().split("T")[0];
+    const mockFlights: FlightSearchResult[] = [
+      {
+        flight_number: "F100",
+        source: "Mumbai",
+        destination: "Delhi",
+        departure_time: `${today}T10:00:00Z`,
+        arrival_time: `${today}T14:00:00Z`,
+        total_fare: 500,
+        departure_date: today,
+        arrival_date: today,
+        class_type: "economy",
+        economy_seats: 10,
+        business_seats: 10,
+        first_class_seats: 10,
+        price_per_person: 10,
+        base_price: 10,
+        extra_price: 10,
+      },
+    ];
+    vi.mocked(fetchFlights).mockResolvedValueOnce(mockFlights);
+
+    renderWithCitiesContext();
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: today },
+    });
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: /Previous/i })).toBeDisabled();
+    });
+  });
+
+  it("should disable next button if date is max date", async () => {
+    const maxDate = new Date(new Date().setMonth(new Date().getMonth() + 3))
+      .toISOString()
+      .split("T")[0];
+    const mockFlights: FlightSearchResult[] = [
+      {
+        flight_number: "F200",
+        source: "Mumbai",
+        destination: "Delhi",
+        departure_time: `${maxDate}T09:00:00Z`,
+        arrival_time: `${maxDate}T12:00:00Z`,
+        total_fare: 450,
+        departure_date: maxDate,
+        arrival_date: maxDate,
+        class_type: "economy",
+        economy_seats: 10,
+        business_seats: 10,
+        first_class_seats: 10,
+        price_per_person: 10,
+        base_price: 10,
+        extra_price: 10,
+      },
+    ];
+    vi.mocked(fetchFlights).mockResolvedValueOnce(mockFlights);
+
+    renderWithCitiesContext();
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: maxDate },
+    });
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: /Next/i })).toBeDisabled();
+    });
+  });
 });
