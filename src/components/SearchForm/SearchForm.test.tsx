@@ -176,6 +176,7 @@ describe("Test for FlightSearchForm />", () => {
       expect(fetchFlights).toHaveBeenCalled();
     });
   });
+  
   it("swaps source and destination when swap button is clicked", () => {
     renderWithCitiesContext();
 
@@ -407,5 +408,213 @@ describe("Test for FlightSearchForm />", () => {
     await waitFor(() => {
       expect(screen.getByRole("button", { name: /Next/i })).toBeDisabled();
     });
+  });
+
+   it("should render the flights available on clicking previous button", async () => {
+    const initialDate = "2025-08-02";
+    const prevDate = "2025-08-01";
+
+    const initialFlights: FlightSearchResult[] = [
+      {
+        flight_number: "F200",
+        source: "Mumbai",
+        destination: "Delhi",
+        departure_time: `${initialDate}T10:00:00Z`,
+        arrival_time: `${initialDate}T14:00:00Z`,
+        total_fare: 600,
+        departure_date: initialDate,
+        arrival_date: initialDate,
+        class_type: "economy",
+        economy_seats: 10,
+        business_seats: 10,
+        first_class_seats: 10,
+        price_per_person: 10,
+        base_price: 10,
+        extra_price: 10,
+      },
+    ];
+
+    const prevFlights: FlightSearchResult[] = [
+      {
+        flight_number: "F100",
+        source: "Mumbai",
+        destination: "Delhi",
+        departure_time: `${prevDate}T10:00:00Z`,
+        arrival_time: `${prevDate}T14:00:00Z`,
+        total_fare: 500,
+        departure_date: prevDate,
+        arrival_date: prevDate,
+        class_type: "economy",
+        economy_seats: 10,
+        business_seats: 10,
+        first_class_seats: 10,
+        price_per_person: 10,
+        base_price: 10,
+        extra_price: 10,
+      },
+    ];
+
+    vi.mocked(fetchFlights).mockResolvedValueOnce(initialFlights);
+    renderWithCitiesContext();
+
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: initialDate },
+    });
+
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+
+    await waitFor(() => {
+      expect(fetchFlights).toHaveBeenCalledWith(
+        expect.objectContaining({ date: initialDate })
+      );
+    });
+
+    vi.mocked(fetchFlights).mockResolvedValueOnce(prevFlights);
+
+    fireEvent.click(screen.getByRole("button", { name: /Previous/i }));
+
+    await waitFor(() => {
+      expect(fetchFlights).toHaveBeenCalledWith(
+        expect.objectContaining({ date: prevDate })
+      );
+      expect(screen.getByText(/F100/)).toBeInTheDocument();
+    });
+  });
+
+  it("should render the flights available on clicking next button", async () => {
+    const initialDate = "2025-08-01";
+    const nextDate = "2025-08-02";
+
+    const initialFlights: FlightSearchResult[] = [
+      {
+        flight_number: "F100",
+        source: "Mumbai",
+        destination: "Delhi",
+        departure_time: `${initialDate}T10:00:00Z`,
+        arrival_time: `${initialDate}T14:00:00Z`,
+        total_fare: 500,
+        departure_date: initialDate,
+        arrival_date: initialDate,
+        class_type: "economy",
+        economy_seats: 10,
+        business_seats: 10,
+        first_class_seats: 10,
+        price_per_person: 10,
+        base_price: 10,
+        extra_price: 10,
+      },
+    ];
+
+    const nextFlights: FlightSearchResult[] = [
+      {
+        flight_number: "F200",
+        source: "Mumbai",
+        destination: "Delhi",
+        departure_time: `${nextDate}T10:00:00Z`,
+        arrival_time: `${nextDate}T14:00:00Z`,
+        total_fare: 600,
+        departure_date: nextDate,
+        arrival_date: nextDate,
+        class_type: "economy",
+        economy_seats: 10,
+        business_seats: 10,
+        first_class_seats: 10,
+        price_per_person: 10,
+        base_price: 10,
+        extra_price: 10,
+      },
+    ];
+
+    vi.mocked(fetchFlights).mockResolvedValueOnce(initialFlights);
+    renderWithCitiesContext();
+
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: initialDate },
+    });
+
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+
+    await waitFor(() => {
+      expect(fetchFlights).toHaveBeenCalledWith(
+        expect.objectContaining({ date: initialDate })
+      );
+    });
+
+    vi.mocked(fetchFlights).mockResolvedValueOnce(nextFlights);
+
+    fireEvent.click(screen.getByRole("button", { name: /Next/i }));
+
+    await waitFor(() => {
+      expect(fetchFlights).toHaveBeenCalledWith(
+        expect.objectContaining({ date: nextDate })
+      );
+      expect(screen.getByText(/F200/)).toBeInTheDocument();
+    });
+  });
+
+  it("should handle error and show alert message when adjustDate fails", async () => {
+    const mockFlights: FlightSearchResult[] = [
+      {
+        flight_number: "F300",
+        source: "Mumbai",
+        destination: "Delhi",
+        departure_time: "2025-08-02T08:00:00Z",
+        arrival_time: "2025-08-02T10:00:00Z",
+        total_fare: 700,
+        departure_date: "2025-08-02",
+        arrival_date: "2025-08-02",
+        class_type: "economy",
+        economy_seats: 10,
+        business_seats: 10,
+        first_class_seats: 10,
+        price_per_person: 10,
+        base_price: 10,
+        extra_price: 10,
+      },
+    ];
+
+    vi.mocked(fetchFlights)
+      .mockResolvedValueOnce(mockFlights)
+      .mockRejectedValueOnce(new Error("Failed to fetch adjusted date"));
+
+    renderWithCitiesContext();
+
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: "2025-08-02" },
+    });
+
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/F300/i)).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /Next/i }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Failed to fetch adjusted date/i)
+      ).toBeInTheDocument();
+    });
+
+    expect(screen.queryByText(/F300/i)).not.toBeInTheDocument();
   });
 });
