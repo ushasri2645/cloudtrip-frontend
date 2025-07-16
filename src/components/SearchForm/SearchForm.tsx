@@ -24,13 +24,16 @@ export function FlightSearchForm() {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [failure, setFailure] = useState(false);
 
+  const formatDate = (date: Date) => date.toISOString().split("T")[0];
+
   const today = new Date();
   const maxDate = new Date(new Date().setMonth(today.getMonth() + 3));
-  const todayStr = today.toISOString().split("T")[0];
-  const maxDateStr = maxDate.toISOString().split("T")[0];
 
-  const isPrevDisabled = formData.date === todayStr;
-  const isNextDisabled = formData.date === maxDateStr;
+  const todayString = formatDate(today);
+  const maxDateString = formatDate(maxDate);
+
+  const isPrevDisabled = formData.date === todayString;
+  const isNextDisabled = formData.date === maxDateString;
 
   const refresh = async () => {
     setLoading(true);
@@ -47,10 +50,17 @@ export function FlightSearchForm() {
     });
   };
 
-  const getFlights = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSwap = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      source: prevData.destination,
+      destination: prevData.source,
+    }));
+  };
+
+  const fetchAndSetFlights = async (data: FlightSearchFormData) => {
     try {
-      const results = await fetchFlights(formData);
+      const results = await fetchFlights(data);
       setFlights(results);
       setSearched(true);
       setFailure(false);
@@ -61,12 +71,19 @@ export function FlightSearchForm() {
     }
   };
 
-  const handleSwap = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      source: prevData.destination,
-      destination: prevData.source,
-    }));
+  const getFlights = (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchAndSetFlights(formData);
+  };
+
+  const updateDateAndFetchFlights = (days: number) => {
+    const currentDate = new Date(formData.date);
+    currentDate.setDate(currentDate.getDate() + days);
+    const newDateStr = currentDate.toISOString().split("T")[0];
+
+    const updatedFormData = { ...formData, date: newDateStr };
+    setFormData(updatedFormData);
+    fetchAndSetFlights(updatedFormData);
   };
 
   return (
@@ -127,12 +144,8 @@ export function FlightSearchForm() {
                 value={formData.date}
                 onChange={handleChange}
                 required
-                min={new Date().toISOString().split("T")[0]}
-                max={
-                  new Date(new Date().setMonth(new Date().getMonth() + 3))
-                    .toISOString()
-                    .split("T")[0]
-                }
+                min={todayString}
+                max={maxDateString}
               />
             </div>
 
@@ -190,10 +203,18 @@ export function FlightSearchForm() {
       {searched && (
         <>
           <div className={styles.buttons_container}>
-            <button className={styles.button} disabled={isPrevDisabled}>
+            <button
+              className={styles.button}
+              disabled={isPrevDisabled}
+              onClick={() => updateDateAndFetchFlights(-1)}
+            >
               Previous
             </button>
-            <button className={styles.button} disabled={isNextDisabled}>
+            <button
+              className={styles.button}
+              disabled={isNextDisabled}
+              onClick={() => updateDateAndFetchFlights(1)}
+            >
               Next
             </button>
           </div>
