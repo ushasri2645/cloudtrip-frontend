@@ -176,7 +176,7 @@ describe("Test for FlightSearchForm />", () => {
       expect(fetchFlights).toHaveBeenCalled();
     });
   });
-  
+
   it("swaps source and destination when swap button is clicked", () => {
     renderWithCitiesContext();
 
@@ -212,7 +212,7 @@ describe("Test for FlightSearchForm />", () => {
     await waitFor(() => {
       expect(fetchFlights).toHaveBeenCalled();
     });
-    const closeBtn = screen.getByRole("button", { name: /OK/i });
+    const closeBtn = await screen.findByRole("button", { name: /ok/i });
     fireEvent.click(closeBtn);
     expect(screen.queryByText(/some error/i)).not.toBeInTheDocument();
   });
