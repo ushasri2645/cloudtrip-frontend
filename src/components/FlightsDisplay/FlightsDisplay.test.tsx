@@ -33,4 +33,10 @@ describe("FlightsDisplay", () => {
     expect(screen.getByText("Flight AB123")).toBeInTheDocument();
     expect(screen.queryByText("No flights found")).not.toBeInTheDocument();
   });
+
+  it("should render the previous and next buttons", () => {
+    render(<FlightsDisplay flights={mockFlights} passengers={2} />);
+    expect(screen.getByText("Previous")).toBeInTheDocument();
+    expect(screen.getByText("Next")).toBeInTheDocument();
+  });
 });
