@@ -14,6 +14,14 @@ export function FlightsDisplay({ flights, passengers }: Props) {
 
   return (
     <div className={styles.container}>
+      <div className={styles.buttons_container}>
+        <button className={styles.button}>
+          Previous
+        </button>
+        <button className={styles.button}>
+          Next
+        </button>
+      </div>
       {flights.map((flight,index) => {
         return <FlightDisplay key={index} flight={flight} passengers={passengers} />
       })}
