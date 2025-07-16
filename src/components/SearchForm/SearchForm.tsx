@@ -180,7 +180,13 @@ export function FlightSearchForm() {
         </datalist>
       </div>
       {searched && (
-        <FlightsDisplay flights={flights} passengers={formData.passengers} />
+        <>
+          <div className={styles.buttons_container}>
+            <button className={styles.button}>Previous</button>
+            <button className={styles.button}>Next</button>
+          </div>
+          <FlightsDisplay flights={flights} passengers={formData.passengers} />
+        </>
       )}
     </div>
   );
