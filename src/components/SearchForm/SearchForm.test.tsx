@@ -215,8 +215,115 @@ describe("Test for FlightSearchForm />", () => {
     fireEvent.click(closeBtn);
     expect(screen.queryByText(/some error/i)).not.toBeInTheDocument();
   });
+
+  it("should render previous and next buttons after search", async () => {
+    const mockFlights: FlightSearchResult[] = [
+      {
+        flight_number: "F100",
+        source: "Mumbai",
+        destination: "Delhi",
+        departure_time: "2025-08-01T10:00:00Z",
+        arrival_time: "2025-08-01T14:00:00Z",
+        total_fare: 500,
+        departure_date: "2025-08-01",
+        arrival_date: "2025-08-01",
+        class_type: "economy",
+        economy_seats: 10,
+        business_seats: 10,
+        first_class_seats: 10,
+        price_per_person: 10,
+        base_price: 10,
+        extra_price: 10,
+      },
+    ];
+
+    vi.mocked(fetchFlights).mockResolvedValueOnce(mockFlights);
+    renderWithCitiesContext();
+
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: "2025-08-01" },
+    });
+
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+
+    await waitFor(() => {
+      expect(fetchFlights).toHaveBeenCalled();
+    });
+
+    expect(screen.getByRole("button", { name: /Previous/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Next/i })).toBeInTheDocument();
+  });
+
+  it("should not render previous and next buttons before search", () => {
+    renderWithCitiesContext();
+    expect(screen.queryByRole("button", { name: /Previous/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Next/i })).not.toBeInTheDocument();
+  });
+  
+  it("should render previous and next buttons when flights are available", async () => {
+    const mockFlights: FlightSearchResult[] = [
+      {
+        flight_number: "F100",
+        source: "Mumbai",
+        destination: "Delhi",
+        departure_time: "2025-08-01T10:00:00Z",
+        arrival_time: "2025-08-01T14:00:00Z",
+        total_fare: 500,
+        departure_date: "2025-08-01",
+        arrival_date: "2025-08-01",
+        class_type: "economy",
+        economy_seats: 10,
+        business_seats: 10,
+        first_class_seats: 10,
+        price_per_person: 10,
+        base_price: 10,
+        extra_price: 10,
+      },
+    ];
+    vi.mocked(fetchFlights).mockResolvedValueOnce(mockFlights);
+
+    renderWithCitiesContext();
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: "2025-08-01" },
+    });
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: /Previous/i })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /Next/i })).toBeInTheDocument();
+    });
+  });
+
+  it("should not render previous and next buttons when no flights are available after search", async () => {
+    vi.mocked(fetchFlights).mockResolvedValueOnce([]); 
+
+    renderWithCitiesContext();
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: "2025-08-01" },
+    });
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole("button", { name: /Previous/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: /Next/i })).not.toBeInTheDocument();
+    });
+  });
 });
-
-
-
-
