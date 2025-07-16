@@ -23,7 +23,6 @@
   margin-top: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   width: fit-content;
-
 }
 
 .flash {
@@ -31,4 +30,49 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.buttons_container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 1rem;
+}
+
+.button {
+  background-color: #298A45;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.button:hover {
+  background-color: #226f3a;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    width: 95%;
+  }
+
+  .button {
+    font-size: 0.95rem;
+  }
+
+  .noFlights {
+    font-size: 1rem;
+    text-align: center;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
 }
