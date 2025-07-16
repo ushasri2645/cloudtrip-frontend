@@ -24,6 +24,14 @@ export function FlightSearchForm() {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [failure, setFailure] = useState(false);
 
+  const today = new Date();
+  const maxDate = new Date(new Date().setMonth(today.getMonth() + 3));
+  const todayStr = today.toISOString().split("T")[0];
+  const maxDateStr = maxDate.toISOString().split("T")[0];
+
+  const isPrevDisabled = formData.date === todayStr;
+  const isNextDisabled = formData.date === maxDateStr;
+
   const refresh = async () => {
     setLoading(true);
     await refetch();
@@ -182,8 +190,12 @@ export function FlightSearchForm() {
       {searched && (
         <>
           <div className={styles.buttons_container}>
-            <button className={styles.button}>Previous</button>
-            <button className={styles.button}>Next</button>
+            <button className={styles.button} disabled={isPrevDisabled}>
+              Previous
+            </button>
+            <button className={styles.button} disabled={isNextDisabled}>
+              Next
+            </button>
           </div>
           <FlightsDisplay flights={flights} passengers={formData.passengers} />
         </>
