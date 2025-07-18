@@ -13,18 +13,43 @@ export const fetchFlights = async (
       },
       body: JSON.stringify(formData),
     });
+
     const data = await response.json();
+    console.log(data);
+
+    if (response.status === 400) {
+      const message =
+        (data.errors && data.errors.join(", ")) ||
+        data.message ||
+        "Bad Request";
+      throw new Error(`${message}`);
+    }
+
+    if (response.status === 404) {
+      const message = data.message || "Not Found";
+      throw new Error(`${message}`);
+    }
+
+    if (response.status === 409) {
+      const message = data.message || "All flights are fully booked.";
+      throw new Error(`${message}`);
+    }
+
+    if (response.status >= 500) {
+      throw new Error("Server Error. Please try again later.");
+    }
     if (!response.ok) {
-      const errorMessages = data.errors
-        ? data.errors.join(", ")
-        : "Unknown error";
+      const errorMessages =
+        (data.errors && data.errors.join(", ")) ||
+        data.message ||
+        "Unknown error";
       throw new Error(errorMessages);
     }
     return data.flights;
   } catch (error) {
     if (error instanceof TypeError) {
-      throw new Error("Network Error. Try again later");
+      throw new Error("Network Error. Please check your connection.");
     }
-    throw new Error(`${(error as Error).message}`);
+    throw new Error((error as Error).message);
   }
 };
