@@ -12,9 +12,7 @@ const mockFlight: FlightSearchResult = {
   arrival_date: "2025-07-21",
   arrival_time: "02:00",
   class_type: "economy",
-  economy_seats: 50,
-  business_seats: 10,
-  first_class_seats: 5,
+  available_seats: 50,
   base_price: 300,
   extra_price: 50,
   price_per_person: 350,
@@ -39,7 +37,7 @@ describe("Tests for bookFlight service", () => {
       json: vi.fn().mockResolvedValue({ updated: true }),
     });
     const result = await bookFlight(mockFlight, 2);
-    expect(global.fetch).toHaveBeenCalledWith(`${API_URL}book`, {
+    expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/book`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,17 +60,6 @@ describe("Tests for bookFlight service", () => {
 
   it("should throw an error when fetch itself fails", async () => {
     global.fetch = vi.fn().mockRejectedValue(new Error("Network failure"));
-    await expect(bookFlight(mockFlight, 2)).rejects.toThrow(
-      "Network failure"
-    );
+    await expect(bookFlight(mockFlight, 2)).rejects.toThrow("Network failure");
   });
 });
-
-
-
-
-
-
-
-
-
