@@ -6,7 +6,7 @@ export const bookFlight = async (
   passengers: number
 ) => {
   try {
-    const response = await fetch(`${API_URL}book`, {
+    const response = await fetch(`${API_URL}/book`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
