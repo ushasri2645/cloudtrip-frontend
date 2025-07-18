@@ -15,7 +15,6 @@ export const fetchFlights = async (
     });
 
     const data = await response.json();
-    console.log(data);
 
     if (response.status === 400) {
       const message =
