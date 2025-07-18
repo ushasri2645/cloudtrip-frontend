@@ -18,6 +18,7 @@ export function FlightSearchForm() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [flightsLoading, setFlightsLoading] = useState(false);
   const [flights, setFlights] = useState<FlightSearchResult[]>([]);
   const [searched, setSearched] = useState(false);
   const { cities, refetch } = useCities();
@@ -59,6 +60,7 @@ export function FlightSearchForm() {
   };
 
   const fetchAndSetFlights = async (data: FlightSearchFormData) => {
+    setFlightsLoading(true);
     try {
       const results = await fetchFlights(data);
       setFlights(results);
@@ -68,6 +70,9 @@ export function FlightSearchForm() {
       setSearched(false);
       setAlertMessage((error as Error).message);
       setFailure(true);
+    }
+    finally{
+      setFlightsLoading(false);
     }
   };
 
@@ -175,7 +180,12 @@ export function FlightSearchForm() {
                 <option value="first_class">First Class</option>
               </select>
             </div>
-            <Button type="submit">Search Flights</Button>
+            <Button type="submit" disabled={flightsLoading}>{flightsLoading ? (
+    <div className={styles.buttonSpinner}></div>
+  ) : (
+    "Search Flights"
+  )}</Button>
+  
           </div>
         </form>
 
