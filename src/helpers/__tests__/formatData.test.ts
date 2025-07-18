@@ -1,6 +1,5 @@
 import { formatDateTime } from "../formatData";
 
-
 describe("formatDateTime", () => {
   it("formats a time before noon correctly (AM)", () => {
     const result = formatDateTime("2025-07-18T09:30:00Z");
@@ -26,4 +25,6 @@ describe("formatDateTime", () => {
     const result = formatDateTime("2025-07-18T06:05:00Z");
     expect(result).toBe("2025-07-18 at 11:35 AM");
   });
+  expect(formatDateTime("2025-07-29T00:00:00Z")).toBe("2025-07-29 at 5:30 AM");
+  expect(formatDateTime("2025-07-29T06:30:00Z")).toBe("2025-07-29 at 12:00 PM");
 });
