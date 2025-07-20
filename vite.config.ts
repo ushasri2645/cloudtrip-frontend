@@ -8,6 +8,7 @@ export default defineConfig({
     setupFiles: "./vitest.setup.ts",
     coverage: {
       exclude: [
+        "dist/",
         "**/*.d.ts",
         "vite.config.*",
         "eslint.config.*",
