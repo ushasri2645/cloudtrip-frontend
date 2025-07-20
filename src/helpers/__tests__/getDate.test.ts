@@ -8,9 +8,9 @@ describe("getDate", () => {
     expect(result).toBe("2025-07-19");
   });
 
-  it("should handle different dates correctly", () => {
-    const input = new Date("1995-12-17T03:24:00");
-    const result = getDate(input);
-    expect(result).toBe("1995-12-16");
-  });
+ it("should handle different dates correctly", () => {
+  const input = new Date("1995-12-17T03:24:00Z"); 
+  const result = getDate(input);
+  expect(result).toBe("1995-12-17");
+});
 });
