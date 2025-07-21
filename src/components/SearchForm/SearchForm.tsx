@@ -54,6 +54,11 @@ export function FlightSearchForm() {
   const fetchAndSetFlights = async (data: FlightSearchFormData) => {
     setFlightsLoading(true);
     try {
+      if (!cities.includes(data.source) || !cities.includes(data.destination)) {
+        setSearched(false);
+        setAlertMessage("Invalid City selected.");
+        return;
+      }
       const results = await fetchFlights(data);
       setFlights(results);
       setSearched(true);

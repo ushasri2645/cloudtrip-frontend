@@ -31,7 +31,6 @@ const renderWithCitiesContext = (
 };
 
 describe("Test for FlightSearchForm />", () => {
-
   it("should render cities in datalists", () => {
     renderWithCitiesContext({ cities: ["Mumbai", "Delhi", "Bangalore"] });
     const datalist = document.querySelector("#source-list");
@@ -541,5 +540,29 @@ describe("Test for FlightSearchForm />", () => {
     });
 
     expect(screen.queryByText(/F300/i)).not.toBeInTheDocument();
+  });
+  it("should show error for invalid city", async () => {
+    renderWithCitiesContext({ cities: ["Mumbai", "Delhi"] });
+
+    const sourceInput = screen.getByLabelText(/source/i);
+    const destinationInput = screen.getByLabelText(/destination/i);
+    const dateInput = screen.getByLabelText(/date/i);
+    const passengersInput = screen.getByLabelText(/passengers/i);
+    const classSelect = screen.getByLabelText(/class/i);
+    const searchButton = screen.getByRole("button", {
+      name: /search flights/i,
+    });
+
+    fireEvent.change(sourceInput, { target: { value: "InvalidCity" } });
+    fireEvent.change(destinationInput, { target: { value: "Delhi" } });
+    fireEvent.change(dateInput, { target: { value: "2025-07-22" } });
+    fireEvent.change(passengersInput, { target: { value: "2" } });
+    fireEvent.change(classSelect, { target: { value: "economy" } });
+
+    fireEvent.click(searchButton);
+
+    await waitFor(() => {
+      expect(screen.getByText(/invalid city selected/i)).toBeInTheDocument();
+    });
   });
 });
