@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./FlightSearchFields.module.css";
 import type { FlightSearchFormData } from "../../types/FlightSearchForm";
+import TripSelector from "../TripSelector/TripSelector";
 
 type Props = {
   formData: FlightSearchFormData;
@@ -27,7 +28,7 @@ export function FlightSearchFields({
         {" "}
         Search for flights to your dream destinations and book with ease.
       </h1>
-
+      <TripSelector/>
       <div className={styles.formGroup}>
         <div className={styles.labelInput}>
           <label htmlFor="source">Source:</label>
