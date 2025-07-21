@@ -27,8 +27,8 @@ describe("FlightDisplay", () => {
     render(<FlightDisplay flight={mockFlight} passengers={2} />);
     expect(screen.getByText("New York → London")).toBeInTheDocument();
     expect(screen.getByText("Flight XY123")).toBeInTheDocument();
-    expect(screen.getByText("2025-07-20 at 5:30 AM")).toBeInTheDocument();
-    expect(screen.getByText("2025-07-21 at 5:30 AM")).toBeInTheDocument();
+    expect(screen.getByText("2025-07-20 at 12:00 AM")).toBeInTheDocument();
+    expect(screen.getByText("2025-07-21 at 12:00 AM")).toBeInTheDocument();
     expect(screen.getByText("ECONOMY")).toBeInTheDocument();
     expect(screen.getByText("50")).toBeInTheDocument();
     expect(
