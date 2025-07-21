@@ -32,11 +32,59 @@
 .brandName {
   font-size: 1.8rem;
   font-weight: 600;
-  color: var(--header-text);
+  color: rgba(0, 0, 0, 0.6);
 }
 
 body::before {
   content: "";
   display: block;
   height: 60px;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navLink {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  background-color: rgb(84, 156, 156);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: white;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.navButton {
+  background-color: rgb(104, 186, 186);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: white;
+  border-radius: 5px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.navButton:hover {
+  background-color: rgb(84, 156, 156);
 }
