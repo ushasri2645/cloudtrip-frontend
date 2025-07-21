@@ -11,10 +11,10 @@ const Footer = () => {
           <img src={logo} alt="CloudTrip Logo" className={styles.navbarLogo} />
           <span>© {currentYear} CloudTrip | All rights reserved.</span>
         </div>
-        <div className={styles.links}>
+        {/* <div className={styles.links}>
           <a href="#">About Us</a> | <a href="#">Contact</a> |{" "}
           <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
-        </div>
+        </div> */}
       </div>
     </footer>
   );
