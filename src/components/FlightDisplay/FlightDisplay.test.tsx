@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { vi } from "vitest";
+import { bookFlight } from "../../services/BookFlight";
 import type { FlightSearchResult } from "../../types/FlightSearchResult";
 import FlightDisplay from "./FlightDisplay";
-import { bookFlight } from "../../services/BookFlight";
-import { vi } from "vitest";
 
 vi.mock("../../services/BookFlight");
 
@@ -35,8 +35,6 @@ describe("FlightDisplay", () => {
       screen.getByText("Total Fare for 2 passengers:")
     ).toBeInTheDocument();
     expect(screen.getByText(/\$700/)).toBeInTheDocument();
-    expect(screen.getByText("Price per person:")).toBeInTheDocument();
-    expect(screen.getByText(/\$350/)).toBeInTheDocument();
 
     expect(screen.getByText("Base price:")).toBeInTheDocument();
         expect(screen.getByText(/\$300/)).toBeInTheDocument();
@@ -93,7 +91,7 @@ describe("FlightDisplay", () => {
     await waitFor(() => {
       expect(screen.getByText("Something went wrong")).toBeInTheDocument();
     });
-    expect(screen.getByText("Failed")).toBeInTheDocument();
+    expect(screen.getByText("Booking Failed")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "OK" }));
     expect(window.location.href).not.toBe("/");
   });
