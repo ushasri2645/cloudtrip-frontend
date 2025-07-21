@@ -42,17 +42,6 @@ describe("Test for FlightSearchForm />", () => {
     expect(values).toEqual(["Mumbai", "Delhi", "Bangalore"]);
   });
 
-  // it("should call refetch when refresh button is clicked", async () => {
-  //   const refetch = vi.fn().mockResolvedValue(undefined);
-  //   renderWithCitiesContext({ refetch });
-
-  //   const refreshBtn = screen.getByRole("button", { name: /Refresh Cities/i });
-  //   fireEvent.click(refreshBtn);
-
-  //   await waitFor(() => {
-  //     expect(refetch).toHaveBeenCalled();
-  //   });
-  // });
   it("should update form fields on change", () => {
     renderWithCitiesContext({
       cities: ["Mumbai", "Delhi"],
@@ -158,27 +147,6 @@ describe("Test for FlightSearchForm />", () => {
     expect(sourceInput.value).toBe("London");
     expect(destinationInput.value).toBe("Bangalore");
   });
-
-  // it("should close the custom alert when onClose is clicked", async () => {
-  //   vi.mocked(fetchFlights).mockRejectedValueOnce(new Error("Some error"));
-  //   renderWithCitiesContext();
-  //   fireEvent.change(screen.getByLabelText(/source/i), {
-  //     target: { name: "source", value: "Mumbai" },
-  //   });
-  //   fireEvent.change(screen.getByLabelText(/destination/i), {
-  //     target: { name: "destination", value: "Mumbai" },
-  //   });
-  //   fireEvent.change(screen.getByLabelText(/departure date/i), {
-  //     target: { name: "date", value: "2025-08-01" },
-  //   });
-  //   fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
-  //   await waitFor(() => {
-  //     expect(fetchFlights).toHaveBeenCalled();
-  //   });
-  //   const closeBtn = await screen.findByRole("button", { name: /ok/i });
-  //   fireEvent.click(closeBtn);
-  //   expect(screen.queryByText(/some error/i)).not.toBeInTheDocument();
-  // });
 
   it("should render previous and next buttons after search", async () => {
     const mockFlights: FlightSearchResult[] = [
