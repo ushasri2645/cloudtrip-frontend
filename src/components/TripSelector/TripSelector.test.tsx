@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import TripSelector from "./TripSelector";
 
 describe("TripSelector Component", () => {
-    it("renders both radio buttons", () => {
+    it("should render both radio buttons", () => {
         render(<TripSelector />);
         expect(screen.getByLabelText(/one way/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/round trip/i)).toBeInTheDocument();
