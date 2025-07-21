@@ -16,14 +16,14 @@ export function NavigationButtons({
   return (
     <div className={styles.buttons_container}>
       <button
-        className={styles.button}
+        className={styles.dateButton}
         disabled={isPrevDisabled}
         onClick={onPrev}
       >
         Previous
       </button>
       <button
-        className={styles.button}
+        className={styles.dateButton}
         disabled={isNextDisabled}
         onClick={onNext}
       >

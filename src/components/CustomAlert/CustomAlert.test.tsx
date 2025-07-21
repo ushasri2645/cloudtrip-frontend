@@ -1,6 +1,6 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { CustomAlert } from "./CustomAlert";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { vi } from "vitest";
+import { CustomAlert } from "./CustomAlert";
 
 describe("Tests for CustomAlert Component", () => {
   it("should render success title and message", () => {
@@ -17,7 +17,7 @@ describe("Tests for CustomAlert Component", () => {
     const onClose = vi.fn();
 
     render(<CustomAlert message={message} failure={true} onClose={onClose} />);
-    expect(screen.getByText("Failed")).toBeInTheDocument();
+    expect(screen.getByText("Booking Failed")).toBeInTheDocument();
     expect(screen.getByText(message)).toBeInTheDocument();
   });
 

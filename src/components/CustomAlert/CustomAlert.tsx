@@ -1,6 +1,6 @@
+import { CheckCircle, XCircle } from "lucide-react";
 import React from "react";
 import styles from "./CustomAlert.module.css";
-
 interface CustomAlertProps {
   message: string;
   failure: boolean;
@@ -15,12 +15,19 @@ export const CustomAlert: React.FC<CustomAlertProps> = ({
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
+        <div className={styles.iconContainer}>
+          {failure ? (
+            <XCircle className={`${styles.icon} ${styles.failureIcon}`} />
+          ) : (
+            <CheckCircle className={`${styles.icon} ${styles.successIcon}`} />
+          )}
+        </div>
         <p
           className={`${styles.title} ${
             failure ? styles.failureTitle : styles.successTitle
           }`}
         >
-          {failure ? "Failed" : "Success"}
+          {failure ? "Booking Failed" : "Success"}
         </p>
         <p>{message}</p>
         <button onClick={onClose}>OK</button>

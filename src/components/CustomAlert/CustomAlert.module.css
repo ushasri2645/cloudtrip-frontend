@@ -4,51 +4,94 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .modal {
-  background: #fff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  background-color: white;
+  padding: 30px 25px;
+  border-radius: 10px;
   text-align: center;
-  max-width: 300px;
-  width: 80%;
+  max-width: 320px;
+  width: 90%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  animation: slideIn 0.3s ease;
 }
 
-.modal p {
-  margin-bottom: 20px;
-  font-size: 13px;
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
+
 .title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.message {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #555;
 }
 
 .successTitle {
-  color: var(--primary-button)
+  color: rgb(28, 168, 98);
 }
 
 .failureTitle {
-  color: #dc3545; 
+  color: rgb(220, 53, 69);
+}
+
+.iconContainer {
+  margin-bottom: 10px;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+}
+
+.successIcon {
+  color: rgb(28, 168, 98);
+}
+
+.failureIcon {
+  color: rgb(220, 53, 69);
 }
 
 .modal button {
-  background-color: var(--primary-button);
-  color: #fff;
-  padding: 5px 10px;
+  background-color: rgb(0, 132, 132);
+  color: white;
+  padding: 8px 18px;
   font-size: 14px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .modal button:hover {
-  background-color: #09c519;
+  background-color: rgb(0, 100, 100);
 }

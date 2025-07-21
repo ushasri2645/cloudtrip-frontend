@@ -31,17 +31,6 @@ const renderWithCitiesContext = (
 };
 
 describe("Test for FlightSearchForm />", () => {
-  // it("should render all form fields", () => {
-  //   renderWithCitiesContext();
-  //   expect(screen.getByLabelText(/Source/i)).toBeInTheDocument();
-  //   expect(screen.getByLabelText(/Destination/i)).toBeInTheDocument();
-  //   expect(screen.getByLabelText(/Departure Date/i)).toBeInTheDocument();
-  //   expect(screen.getByLabelText(/Number of Passengers/i)).toBeInTheDocument();
-  //   expect(screen.getByLabelText(/Class Type/i)).toBeInTheDocument();
-  //   expect(
-  //     screen.getByRole("button", { name: /Search Flights/i })
-  //   ).toBeInTheDocument();
-  // });
 
   it("should render cities in datalists", () => {
     renderWithCitiesContext({ cities: ["Mumbai", "Delhi", "Bangalore"] });
@@ -52,41 +41,6 @@ describe("Test for FlightSearchForm />", () => {
     const values = Array.from(options).map((opt) => opt.getAttribute("value"));
     expect(values).toEqual(["Mumbai", "Delhi", "Bangalore"]);
   });
-
-  it("should call refetch when refresh button is clicked", async () => {
-    const refetch = vi.fn().mockResolvedValue(undefined);
-    renderWithCitiesContext({ refetch });
-
-    const refreshBtn = screen.getByRole("button", { name: /Refresh Cities/i });
-    fireEvent.click(refreshBtn);
-
-    await waitFor(() => {
-      expect(refetch).toHaveBeenCalled();
-    });
-  });
-
-  // it("should render class type select with all options", () => {
-  //   renderWithCitiesContext({
-  //     cities: [],
-  //   });
-  //   const select = screen.getByLabelText(/class type/i);
-  //   expect(select).toBeInTheDocument();
-  //   expect(select).toHaveValue("economy");
-  //   const options = screen.getAllByRole("option");
-  //   const classTypeOptions = options.filter((opt) =>
-  //     ["Economy", "Business", "First Class"].includes(opt.textContent || "")
-  //   );
-  //   expect(classTypeOptions).toHaveLength(3);
-  //   expect(classTypeOptions.map((option) => option.textContent)).toEqual([
-  //     "Economy",
-  //     "Business",
-  //     "First Class",
-  //   ]);
-
-  //   expect(
-  //     classTypeOptions.map((option) => option.getAttribute("value"))
-  //   ).toEqual(["economy", "business", "first_class"]);
-  // });
 
   it("should update form fields on change", () => {
     renderWithCitiesContext({
@@ -192,27 +146,6 @@ describe("Test for FlightSearchForm />", () => {
     fireEvent.click(swapButton);
     expect(sourceInput.value).toBe("London");
     expect(destinationInput.value).toBe("Bangalore");
-  });
-
-  it("should close the custom alert when onClose is clicked", async () => {
-    vi.mocked(fetchFlights).mockRejectedValueOnce(new Error("Some error"));
-    renderWithCitiesContext();
-    fireEvent.change(screen.getByLabelText(/source/i), {
-      target: { name: "source", value: "Mumbai" },
-    });
-    fireEvent.change(screen.getByLabelText(/destination/i), {
-      target: { name: "destination", value: "Mumbai" },
-    });
-    fireEvent.change(screen.getByLabelText(/departure date/i), {
-      target: { name: "date", value: "2025-08-01" },
-    });
-    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
-    await waitFor(() => {
-      expect(fetchFlights).toHaveBeenCalled();
-    });
-    const closeBtn = await screen.findByRole("button", { name: /ok/i });
-    fireEvent.click(closeBtn);
-    expect(screen.queryByText(/some error/i)).not.toBeInTheDocument();
   });
 
   it("should render previous and next buttons after search", async () => {

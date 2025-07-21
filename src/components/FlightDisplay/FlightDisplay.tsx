@@ -1,9 +1,9 @@
 import { useState } from "react";
+import { formatDateTime } from "../../helpers/formatData";
 import { bookFlight } from "../../services/BookFlight";
 import type { FlightSearchResult } from "../../types/FlightSearchResult";
-import styles from "./FlightDisplay.module.css";
 import { CustomAlert } from "../CustomAlert/CustomAlert";
-import { formatDateTime } from "../../helpers/formatData";
+import styles from "./FlightDisplay.module.css";
 
 function FlightDisplay({
   flight,
@@ -31,7 +31,7 @@ function FlightDisplay({
       setLoading(false);
     }
   };
- 
+
   return (
     <div key={flight.flight_number} className={styles.flightCard}>
       <div className={styles.flightCardContent}>
@@ -39,44 +39,38 @@ function FlightDisplay({
           <span className={styles.route}>
             {flight.source} → {flight.destination}
           </span>
-          <span className={styles.flightNumber}>
-            Flight {flight.flight_number}
-          </span>
+          <div className={styles.topRightSection}>
+            <span className={styles.flightNumber}>{classTypeFormatted}</span>
+            <span className={styles.flightNumber}>
+              Flight {flight.flight_number}
+            </span>
+          </div>
         </div>
         <div className={styles.flightCardDetails}>
           <div className={styles.detailBlock}>
             <strong>Departure:</strong>
-            <div>
-              {formatDateTime(flight.departure_date)}
-            </div>
+            <div>{formatDateTime(flight.departure_date)}</div>
           </div>
           <div className={styles.detailBlock}>
             <strong>Arrival:</strong>
             <div>{formatDateTime(flight.arrival_date)}</div>
           </div>
           <div className={styles.detailBlock}>
-            <strong>Class:</strong>
-            <div>{classTypeFormatted}</div>
-          </div>
-          <div className={styles.detailBlock}>
             <strong>Available Seats:</strong>
             <div>{flight.available_seats}</div>
+          </div>
+          <div className={styles.detailBlock}>
+            <strong>
+              Total Fare for {passengers} passenger
+              {passengers > 1 ? "s" : ""}:
+            </strong>
+            <div className={styles.totalFare}>${flight.total_fare}</div>
           </div>
         </div>
 
         <div className={styles.flightCardFooter}>
           <div>
-            <div>
-              <strong>
-                Total Fare for {passengers} passenger
-                {passengers > 1 ? "s" : ""}:
-              </strong>
-            </div>
-            <div className={styles.totalFare}>${flight.total_fare}</div>
             <div className={styles.fareBreakdown}>
-              <div>
-                Price per person: <span>${flight.price_per_person}</span>
-              </div>
               <div>
                 Base price: <span>${flight.base_price}</span>
               </div>

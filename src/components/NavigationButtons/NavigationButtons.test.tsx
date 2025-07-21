@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from "vitest";
 import { NavigationButtons } from './NavigationButtons'
 
 describe("NavigationButtons", () => {
-  it("renders both Previous and Next buttons", () => {
+  it("should render both Previous and Next buttons", () => {
     render(
       <NavigationButtons
         isPrevDisabled={false}
@@ -17,7 +17,7 @@ describe("NavigationButtons", () => {
     expect(screen.getByRole("button", { name: /Next/i })).toBeInTheDocument();
   });
 
-  it("disables the Previous button when isPrevDisabled is true", () => {
+  it("should disable the Previous button when isPrevDisabled is true", () => {
     render(
       <NavigationButtons
         isPrevDisabled={true}
@@ -31,7 +31,7 @@ describe("NavigationButtons", () => {
     expect(screen.getByRole("button", { name: /Next/i })).not.toBeDisabled();
   });
 
-  it("disables the Next button when isNextDisabled is true", () => {
+  it("should disable the Next button when isNextDisabled is true", () => {
     render(
       <NavigationButtons
         isPrevDisabled={false}
@@ -45,7 +45,7 @@ describe("NavigationButtons", () => {
     expect(screen.getByRole("button", { name: /Previous/i })).not.toBeDisabled();
   });
 
-  it("calls onPrev and onNext when buttons are clicked", () => {
+  it("should call onPrev and onNext when buttons are clicked", () => {
     const onPrev = vi.fn();
     const onNext = vi.fn();
 
