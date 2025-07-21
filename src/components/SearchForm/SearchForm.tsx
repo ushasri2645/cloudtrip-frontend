@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { getDate } from "../../helpers/getDate";
 import { useCities } from "../../hooks/useCities";
 import { fetchFlights } from "../../services/FetchFlights";
 import type { FlightSearchFormData } from "../../types/FlightSearchForm";
 import type { FlightSearchResult } from "../../types/FlightSearchResult";
+import styles from "./SearchForm.module.css";
 import { Button } from "../Button/Button";
 import { FlightsDisplay } from "../FlightsDisplay/FlightsDisplay";
 import { FlightSearchFields } from "../FlightSearchFields/FlightSearchFields";
 import { NavigationButtons } from "../NavigationButtons/NavigationButtons";
-import styles from "./SearchForm.module.css";
+import { getDate } from "../../helpers/getDate";
 
 export function FlightSearchForm() {
   const [formData, setFormData] = useState<FlightSearchFormData>({
