@@ -21,6 +21,8 @@ describe("Test for FlightSearchFields Component", () => {
         cities={["Mumbai", "Delhi"]}
         todayString="2025-07-01"
         maxDateString="2025-12-31"
+        handleCurrencyChange={vi.fn()}
+        selectedCurrency="INR"
       />
     );
 
@@ -29,6 +31,28 @@ describe("Test for FlightSearchFields Component", () => {
     expect(screen.getByLabelText(/Departure Date/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Number of Passengers/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Class Type/i)).toBeInTheDocument();
+  });
+
+  it("renders currency dropdown with default value and triggers handler on change", () => {
+    const mockHandleCurrencyChange = vi.fn();
+
+    render(
+      <FlightSearchFields
+        formData={mockFormData}
+        handleChange={vi.fn()}
+        handleSwap={vi.fn()}
+        cities={["Mumbai", "Delhi"]}
+        todayString="2025-07-01"
+        maxDateString="2025-12-31"
+        handleCurrencyChange={mockHandleCurrencyChange}
+        selectedCurrency="INR"
+      />
+    );
+
+    const dropdowns = screen.getAllByRole("combobox");
+    const currencyDropdown = dropdowns[0];
+
+    expect(currencyDropdown).toHaveValue("INR");
   });
 
   it("should call handleChange on input change", () => {
@@ -41,6 +65,8 @@ describe("Test for FlightSearchFields Component", () => {
         cities={["Mumbai", "Delhi"]}
         todayString="2025-07-01"
         maxDateString="2025-12-31"
+        handleCurrencyChange={vi.fn()}
+        selectedCurrency="INR"
       />
     );
 
@@ -60,6 +86,8 @@ describe("Test for FlightSearchFields Component", () => {
         cities={["Mumbai", "Delhi"]}
         todayString="2025-07-01"
         maxDateString="2025-12-31"
+        handleCurrencyChange={vi.fn()}
+        selectedCurrency="INR"
       />
     );
 

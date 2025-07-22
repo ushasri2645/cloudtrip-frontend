@@ -4,13 +4,17 @@ import { bookFlight } from "../../services/BookFlight";
 import type { FlightSearchResult } from "../../types/FlightSearchResult";
 import { CustomAlert } from "../CustomAlert/CustomAlert";
 import styles from "./FlightDisplay.module.css";
+import { calculateDuration } from "../../services/calculateDuration";
+import { convertCurrency } from "../../helpers/convertCurrency";
 
 function FlightDisplay({
   flight,
   passengers,
+  selectedCurrency,
 }: {
   flight: FlightSearchResult;
   passengers: number;
+   selectedCurrency:string
 }) {
   const classTypeFormatted = flight.class_type.toUpperCase();
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -39,6 +43,20 @@ function FlightDisplay({
           <span className={styles.route}>
             {flight.source} → {flight.destination}
           </span>
+          <div className={styles.durationBox}>
+            <div className={styles.durationGraphic}>
+              <div className={styles.flightEmoji}>✈️</div>
+              <div className={styles.durationLine}>
+                <span className={styles.durationTime}>
+                  {calculateDuration(
+                    flight.departure_date,
+                    flight.arrival_date
+                  )}
+                </span>
+              </div>
+              <div className={styles.durationCircle}></div>
+            </div>
+          </div>
           <div className={styles.topRightSection}>
             <span className={styles.flightNumber}>{classTypeFormatted}</span>
             <span className={styles.flightNumber}>
@@ -64,7 +82,7 @@ function FlightDisplay({
               Total Fare for {passengers} passenger
               {passengers > 1 ? "s" : ""}:
             </strong>
-            <div className={styles.totalFare}>${flight.total_fare}</div>
+            <div className={styles.totalFare}>{convertCurrency(flight.total_fare,selectedCurrency)}</div>
           </div>
         </div>
 
@@ -72,10 +90,10 @@ function FlightDisplay({
           <div>
             <div className={styles.fareBreakdown}>
               <div>
-                Base price: <span>${flight.base_price}</span>
+                Base price: <span>{convertCurrency(flight.base_price, selectedCurrency)}</span>
               </div>
               <div>
-                Dynamic Price: <span>${flight.extra_price}</span>
+                Dynamic Price: <span>{convertCurrency(flight.extra_price,selectedCurrency)}</span>
               </div>
             </div>
           </div>

@@ -24,7 +24,7 @@ const mockFlight: FlightSearchResult = {
 
 describe("FlightDisplay", () => {
   it("should render flight information correctly for passengers greater than 2", () => {
-    render(<FlightDisplay flight={mockFlight} passengers={2} />);
+    render(<FlightDisplay flight={mockFlight} passengers={2} selectedCurrency="INR" />);
     expect(screen.getByText("New York → London")).toBeInTheDocument();
     expect(screen.getByText("Flight XY123")).toBeInTheDocument();
     expect(screen.getByText("2025-07-20 at 12:00 AM")).toBeInTheDocument();
@@ -34,27 +34,37 @@ describe("FlightDisplay", () => {
     expect(
       screen.getByText("Total Fare for 2 passengers:")
     ).toBeInTheDocument();
-    expect(screen.getByText(/\$700/)).toBeInTheDocument();
+    expect(screen.getByText(/₹700/)).toBeInTheDocument();
 
     expect(screen.getByText("Base price:")).toBeInTheDocument();
-        expect(screen.getByText(/\$300/)).toBeInTheDocument();
+    expect(screen.getByText(/₹300/)).toBeInTheDocument();
 
     expect(screen.getByText("Dynamic Price:")).toBeInTheDocument();
-        expect(screen.getByText(/\$50/)).toBeInTheDocument();
+    expect(screen.getByText(/₹50/)).toBeInTheDocument();
 
     expect(
       screen.getByRole("button", { name: "Book Now" })
     ).toBeInTheDocument();
   });
+  it("should display correct flight duration", () => {
+    const flightWithDuration: FlightSearchResult = {
+      ...mockFlight,
+      departure_date: "2025-07-20T08:00:00Z",
+      arrival_date: "2025-07-20T17:30:00Z",
+    };
+
+    render(<FlightDisplay flight={flightWithDuration} passengers={1} selectedCurrency="INR" />);
+    expect(screen.getByText("9h 30m")).toBeInTheDocument();
+  });
 
   it("should render flight information correctly for one passenger", () => {
-    render(<FlightDisplay flight={mockFlight} passengers={1} />);
+    render(<FlightDisplay flight={mockFlight} passengers={1} selectedCurrency="INR" />);
     expect(screen.getByText("Total Fare for 1 passenger:")).toBeInTheDocument();
   });
 
   it("should show success alert on booking success", async () => {
     vi.mocked(bookFlight).mockResolvedValue(true);
-    render(<FlightDisplay flight={mockFlight} passengers={2} />);
+    render(<FlightDisplay flight={mockFlight} passengers={2} selectedCurrency="INR" />);
     const button = screen.getByRole("button", { name: "Book Now" });
     fireEvent.click(button);
     await waitFor(() => {
@@ -64,7 +74,7 @@ describe("FlightDisplay", () => {
 
   it("should shows failur alert on booking error", async () => {
     vi.mocked(bookFlight).mockRejectedValue(new Error("Server error"));
-    render(<FlightDisplay flight={mockFlight} passengers={2} />);
+    render(<FlightDisplay flight={mockFlight} passengers={2} selectedCurrency="INR" />);
     const button = screen.getByRole("button", { name: "Book Now" });
     fireEvent.click(button);
     await waitFor(() => {
@@ -74,7 +84,7 @@ describe("FlightDisplay", () => {
 
   it("should get CustomAlert component visible on booking success and navigates on close", async () => {
     vi.mocked(bookFlight).mockResolvedValue(true);
-    render(<FlightDisplay flight={mockFlight} passengers={2} />);
+    render(<FlightDisplay flight={mockFlight} passengers={2} selectedCurrency="INR"/>);
     fireEvent.click(screen.getByRole("button", { name: "Book Now" }));
     await waitFor(() => {
       expect(screen.getByText("Booking Successful!")).toBeInTheDocument();
@@ -86,7 +96,7 @@ describe("FlightDisplay", () => {
 
   it("should get CustomAlert component visible on booking failure and does NOT navigate", async () => {
     vi.mocked(bookFlight).mockRejectedValue(new Error("Something went wrong"));
-    render(<FlightDisplay flight={mockFlight} passengers={2} />);
+    render(<FlightDisplay flight={mockFlight} passengers={2} selectedCurrency="INR" />);
     fireEvent.click(screen.getByRole("button", { name: "Book Now" }));
     await waitFor(() => {
       expect(screen.getByText("Something went wrong")).toBeInTheDocument();
