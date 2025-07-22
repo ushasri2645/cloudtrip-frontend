@@ -24,6 +24,7 @@ export function FlightSearchForm() {
   const [searched, setSearched] = useState(false);
   const { cities } = useCities();
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [selectedCurrency, setSelectedCurrency] = useState("INR");
 
   const today = new Date();
   const maxDate = new Date(new Date().setMonth(today.getMonth() + 3));
@@ -41,6 +42,10 @@ export function FlightSearchForm() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCurrency(e.target.value);
   };
 
   const handleSwap = () => {
@@ -97,6 +102,8 @@ export function FlightSearchForm() {
             handleSwap={handleSwap}
             todayString={todayString}
             maxDateString={maxDateString}
+            handleCurrencyChange={handleCurrencyChange}
+            selectedCurrency={selectedCurrency}
           />
           <Button type="submit">Search Flights</Button>
 
@@ -118,7 +125,11 @@ export function FlightSearchForm() {
         />
       )}
       {searched && (
-        <FlightsDisplay flights={flights} passengers={formData.passengers} />
+        <FlightsDisplay
+          flights={flights}
+          passengers={formData.passengers}
+          selectedCurrency={selectedCurrency}
+        />
       )}
       {alertMessage && (
         <div className={styles.alertMessageContainer}>

@@ -5,9 +5,10 @@ import styles from './FlightsDisplay.module.css';
 type Props = {
   flights: FlightSearchResult[];
   passengers: number;
+   selectedCurrency:string
 };
 
-export function FlightsDisplay({ flights, passengers }: Props) {
+export function FlightsDisplay({ flights, passengers, selectedCurrency }: Props) {
   if (flights.length === 0) {
     return <div className={styles.flash} ><p className={styles.noFlights}>No flights found</p></div>;
   }
@@ -15,7 +16,7 @@ export function FlightsDisplay({ flights, passengers }: Props) {
   return (
     <div className={styles.container}>
       {flights.map((flight,index) => {
-        return <FlightDisplay key={index} flight={flight} passengers={passengers} />
+        return <FlightDisplay key={index} flight={flight} passengers={passengers} selectedCurrency={selectedCurrency}/>
       })}
     </div>
   );

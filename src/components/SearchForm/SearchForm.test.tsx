@@ -73,6 +73,17 @@ describe("Test for FlightSearchForm />", () => {
     expect(classSelect).toHaveValue("business");
   });
 
+  it("should change currency when dropdown is used", () => {
+    renderWithCitiesContext();
+
+    const option = screen.getByRole("option", { name: "USD ($)" });
+    const select = option.closest("select") as HTMLSelectElement;
+
+    fireEvent.change(select, { target: { value: "USD" } });
+
+    expect(select.value).toBe("USD");
+  });
+
   it("should submit the form and displays flights on success", async () => {
     const mockFlights: FlightSearchResult[] = [
       {
