@@ -5,13 +5,16 @@ import type { FlightSearchResult } from "../../types/FlightSearchResult";
 import { CustomAlert } from "../CustomAlert/CustomAlert";
 import styles from "./FlightDisplay.module.css";
 import { calculateDuration } from "../../services/calculateDuration";
+import { convertCurrency } from "../../helpers/convertCurrency";
 
 function FlightDisplay({
   flight,
   passengers,
+  selectedCurrency,
 }: {
   flight: FlightSearchResult;
   passengers: number;
+   selectedCurrency:string
 }) {
   const classTypeFormatted = flight.class_type.toUpperCase();
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -79,7 +82,7 @@ function FlightDisplay({
               Total Fare for {passengers} passenger
               {passengers > 1 ? "s" : ""}:
             </strong>
-            <div className={styles.totalFare}>₹{flight.total_fare}</div>
+            <div className={styles.totalFare}>{convertCurrency(flight.total_fare,selectedCurrency)}</div>
           </div>
         </div>
 
@@ -87,10 +90,10 @@ function FlightDisplay({
           <div>
             <div className={styles.fareBreakdown}>
               <div>
-                Base price: <span>₹{flight.base_price}</span>
+                Base price: <span>{convertCurrency(flight.base_price, selectedCurrency)}</span>
               </div>
               <div>
-                Dynamic Price: <span>₹{flight.extra_price}</span>
+                Dynamic Price: <span>{convertCurrency(flight.extra_price,selectedCurrency)}</span>
               </div>
             </div>
           </div>
