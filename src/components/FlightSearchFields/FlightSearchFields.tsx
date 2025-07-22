@@ -11,6 +11,8 @@ type Props = {
   cities: string[];
   todayString: string;
   maxDateString: string;
+  selectedCurrency: string;
+  handleCurrencyChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export function FlightSearchFields({
@@ -20,13 +22,30 @@ export function FlightSearchFields({
   cities,
   todayString,
   maxDateString,
+  selectedCurrency,
+  handleCurrencyChange,
 }: Props) {
   return (
     <>
-      <h1 className={styles.subHeader}>
-        {" "}
-        Search for flights to your dream destinations and book with ease.
-      </h1>
+      <div className={styles.headerWrapper}>
+        <h1 className={styles.subHeader}>
+          Search for flights to your dream destinations and book with ease.
+        </h1>
+        <div className={styles.currencyDropdown}>
+          <select
+            id="currency"
+            value={selectedCurrency}
+            onChange={handleCurrencyChange}
+            className={styles.currencySelect}
+          >
+            <option value="INR">INR (₹)</option>
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="AUD">AUD (A$)</option>
+            <option value="KWD">KWD (KD)</option>
+          </select>
+        </div>
+      </div>
 
       <div className={styles.formGroup}>
         <div className={styles.labelInput}>
