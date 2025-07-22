@@ -4,6 +4,7 @@ import { bookFlight } from "../../services/BookFlight";
 import type { FlightSearchResult } from "../../types/FlightSearchResult";
 import { CustomAlert } from "../CustomAlert/CustomAlert";
 import styles from "./FlightDisplay.module.css";
+import { calculateDuration } from "../../services/calculateDuration";
 
 function FlightDisplay({
   flight,
@@ -39,6 +40,20 @@ function FlightDisplay({
           <span className={styles.route}>
             {flight.source} → {flight.destination}
           </span>
+          <div className={styles.durationBox}>
+            <div className={styles.durationGraphic}>
+              <div className={styles.flightEmoji}>✈️</div>
+              <div className={styles.durationLine}>
+                <span className={styles.durationTime}>
+                  {calculateDuration(
+                    flight.departure_date,
+                    flight.arrival_date
+                  )}
+                </span>
+              </div>
+              <div className={styles.durationCircle}></div>
+            </div>
+          </div>
           <div className={styles.topRightSection}>
             <span className={styles.flightNumber}>{classTypeFormatted}</span>
             <span className={styles.flightNumber}>
