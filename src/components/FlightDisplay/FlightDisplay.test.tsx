@@ -46,6 +46,16 @@ describe("FlightDisplay", () => {
       screen.getByRole("button", { name: "Book Now" })
     ).toBeInTheDocument();
   });
+  it("should display correct flight duration", () => {
+    const flightWithDuration: FlightSearchResult = {
+      ...mockFlight,
+      departure_date: "2025-07-20T08:00:00Z",
+      arrival_date: "2025-07-20T17:30:00Z",
+    };
+
+    render(<FlightDisplay flight={flightWithDuration} passengers={1} />);
+    expect(screen.getByText("9h 30m")).toBeInTheDocument();
+  });
 
   it("should render flight information correctly for one passenger", () => {
     render(<FlightDisplay flight={mockFlight} passengers={1} />);
