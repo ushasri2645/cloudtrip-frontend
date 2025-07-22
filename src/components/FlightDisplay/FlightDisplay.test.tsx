@@ -34,13 +34,13 @@ describe("FlightDisplay", () => {
     expect(
       screen.getByText("Total Fare for 2 passengers:")
     ).toBeInTheDocument();
-    expect(screen.getByText(/\$700/)).toBeInTheDocument();
+    expect(screen.getByText(/₹700/)).toBeInTheDocument();
 
     expect(screen.getByText("Base price:")).toBeInTheDocument();
-        expect(screen.getByText(/\$300/)).toBeInTheDocument();
+    expect(screen.getByText(/₹300/)).toBeInTheDocument();
 
     expect(screen.getByText("Dynamic Price:")).toBeInTheDocument();
-        expect(screen.getByText(/\$50/)).toBeInTheDocument();
+    expect(screen.getByText(/₹50/)).toBeInTheDocument();
 
     expect(
       screen.getByRole("button", { name: "Book Now" })
