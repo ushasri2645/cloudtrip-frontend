@@ -27,11 +27,12 @@ export function FlightSearchFields({
   handleCurrencyChange,
 }: Props) {
   return (
-    <>
+    <>       
       <div className={styles.headerWrapper}>
         <h1 className={styles.subHeader}>
           Search for flights to your dream destinations and book with ease.
         </h1>
+         <TripSelector/>
         <div className={styles.currencyDropdown}>
           <select
             id="currency"
