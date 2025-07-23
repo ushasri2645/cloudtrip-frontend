@@ -1,8 +1,11 @@
-import { useState } from "react";
 import styles from "./TripSelector.module.css";
 
-const TripSelector = () => {
-    const [tripType, setTripType] = useState("one_way");
+type Props = {
+  tripType: string;
+  setTripType: (type: string) => void;
+};
+
+const TripSelector = ({ tripType, setTripType }: Props) => {
 
     return (
         <div className={styles.tripOptionsInline}>
