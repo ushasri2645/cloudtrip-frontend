@@ -17,6 +17,7 @@ export function FlightSearchForm() {
     date: "",
     passengers: 1,
     class_type: "economy",
+    returnDate: "",
   });
 
   const [flightsLoading, setFlightsLoading] = useState(false);
@@ -103,8 +104,7 @@ export function FlightSearchForm() {
             todayString={todayString}
             maxDateString={maxDateString}
             handleCurrencyChange={handleCurrencyChange}
-            selectedCurrency={selectedCurrency}
-          />
+            selectedCurrency={selectedCurrency} returnDate={""}          />
           <Button type="submit">Search Flights</Button>
 
           {flightsLoading && (
