@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import styles from "./FlightSearchFields.module.css";
 import type { FlightSearchFormData } from "../../types/FlightSearchForm";
 import TripSelector from "../TripSelector/TripSelector";
@@ -15,6 +15,8 @@ type Props = {
   selectedCurrency: string;
   returnDate: string;
   handleCurrencyChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  tripType: string;
+  setTripType: Dispatch<SetStateAction<string>>;
 };
 
 export function FlightSearchFields({
@@ -26,15 +28,16 @@ export function FlightSearchFields({
   maxDateString,
   selectedCurrency,
   handleCurrencyChange,
+  tripType,
+  setTripType,
 }: Props) {
-  const [tripType, setTripType] = useState("one_way");
   return (
-    <>       
+    <>
       <div className={styles.headerWrapper}>
         <h1 className={styles.subHeader}>
           Search for flights to your dream destinations and book with ease.
         </h1>
-         <TripSelector tripType={tripType} setTripType={setTripType}/>
+        <TripSelector tripType={tripType} setTripType={setTripType} />
         <div className={styles.currencyDropdown}>
           <select
             id="currency"

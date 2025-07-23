@@ -9,7 +9,7 @@ const mockFormData: FlightSearchFormData = {
   date: "2025-08-01",
   passengers: 1,
   class_type: "economy",
-  returnDate: ""
+  returnDate: "",
 };
 
 describe("Test for FlightSearchFields Component", () => {
@@ -23,7 +23,11 @@ describe("Test for FlightSearchFields Component", () => {
         todayString="2025-07-01"
         maxDateString="2025-12-31"
         handleCurrencyChange={vi.fn()}
-        selectedCurrency="INR" returnDate={""}      />
+        selectedCurrency="INR"
+        returnDate={""}
+        tripType={""}
+        setTripType={vi.fn()}
+      />
     );
 
     expect(screen.getByLabelText(/Source/i)).toBeInTheDocument();
@@ -45,7 +49,11 @@ describe("Test for FlightSearchFields Component", () => {
         todayString="2025-07-01"
         maxDateString="2025-12-31"
         handleCurrencyChange={mockHandleCurrencyChange}
-        selectedCurrency="INR" returnDate={""}      />
+        selectedCurrency="INR"
+        returnDate={""}
+        tripType={""}
+        setTripType={vi.fn()}
+      />
     );
 
     const dropdowns = screen.getAllByRole("combobox");
@@ -65,7 +73,11 @@ describe("Test for FlightSearchFields Component", () => {
         todayString="2025-07-01"
         maxDateString="2025-12-31"
         handleCurrencyChange={vi.fn()}
-        selectedCurrency="INR" returnDate={""}      />
+        selectedCurrency="INR"
+        returnDate={""}
+        tripType={""}
+        setTripType={vi.fn()}
+      />
     );
 
     fireEvent.change(screen.getByLabelText(/Source/i), {
@@ -85,7 +97,11 @@ describe("Test for FlightSearchFields Component", () => {
         todayString="2025-07-01"
         maxDateString="2025-12-31"
         handleCurrencyChange={vi.fn()}
-        selectedCurrency="INR" returnDate={""}      />
+        selectedCurrency="INR"
+        returnDate={""}
+        tripType={""}
+        setTripType={vi.fn()}
+      />
     );
 
     const swapButton = screen.getByRole("button", { name: /Swap/i });
