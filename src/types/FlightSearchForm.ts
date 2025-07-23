@@ -1,4 +1,5 @@
 export interface FlightSearchFormData {
+  returnDate: string;
   source: string;
   destination: string;
   date: string;
