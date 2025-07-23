@@ -9,6 +9,7 @@ const mockFormData: FlightSearchFormData = {
   date: "2025-08-01",
   passengers: 1,
   class_type: "economy",
+  returnDate: ""
 };
 
 const mockFlights: FlightSearchResult[] = [
