@@ -112,7 +112,7 @@ export function FlightSearchFields({
         )}
 
         <div className={styles.labelInput}>
-          <label htmlFor="passengers">Number of Passengers:</label>
+          <label htmlFor="passengers">Passengers:</label>
           <input
             type="number"
             id="passengers"
