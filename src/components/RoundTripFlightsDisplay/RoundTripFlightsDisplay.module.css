@@ -1,0 +1,48 @@
+.container {
+  background-color: white;
+  border-radius: 10px;
+  max-width: 1150px;
+  width: 90%;
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  padding: 2rem;
+  font-family: var(--font-family-inter);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+.tabHeader {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.tabButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  background-color: #cccccc;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.tabButton:hover {
+  background-color: rgb(71, 134, 134);
+}
+
+.active {
+  background-color: rgb(104, 186, 186);
+}
+
+.cardsWrapper {
+  display: grid;
+  gap: 16px;
+}
