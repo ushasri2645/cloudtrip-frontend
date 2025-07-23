@@ -1,14 +1,17 @@
 import { useState } from "react";
+import { getDate } from "../../helpers/getDate";
 import { useCities } from "../../hooks/useCities";
 import { fetchFlights } from "../../services/FetchFlights";
+import { fetchRoundTripFlights } from "../../services/FetchRoundTripFlight";
 import type { FlightSearchFormData } from "../../types/FlightSearchForm";
 import type { FlightSearchResult } from "../../types/FlightSearchResult";
-import styles from "./SearchForm.module.css";
+import type { RoundTripSearchResult } from "../../types/RoundTripSearchResult";
 import { Button } from "../Button/Button";
 import { FlightsDisplay } from "../FlightsDisplay/FlightsDisplay";
 import { FlightSearchFields } from "../FlightSearchFields/FlightSearchFields";
 import { NavigationButtons } from "../NavigationButtons/NavigationButtons";
-import { getDate } from "../../helpers/getDate";
+import { RoundTripResults } from "../RoundTripFlightsDisplay/RoundTripFlightsDisplay";
+import styles from "./SearchForm.module.css";
 
 export function FlightSearchForm() {
   const [formData, setFormData] = useState<FlightSearchFormData>({
@@ -22,10 +25,13 @@ export function FlightSearchForm() {
 
   const [flightsLoading, setFlightsLoading] = useState(false);
   const [flights, setFlights] = useState<FlightSearchResult[]>([]);
+  const [roundtripFlights, setRoundTripFlights] =
+    useState<RoundTripSearchResult>({ onwards: [], return: [] });
   const [searched, setSearched] = useState(false);
   const { cities } = useCities();
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [selectedCurrency, setSelectedCurrency] = useState("INR");
+  const [tripType, setTripType] = useState("one_way");
 
   const today = new Date();
   const maxDate = new Date(new Date().setMonth(today.getMonth() + 3));
@@ -65,9 +71,21 @@ export function FlightSearchForm() {
         setAlertMessage("Invalid City selected.");
         return;
       }
-      const results = await fetchFlights(data);
-      setFlights(results);
-      setSearched(true);
+      if (tripType === "one_way") {
+        const results = await fetchFlights(data);
+        setFlights(results);
+        setSearched(true);
+      } else {
+        const roundTripResults = await fetchRoundTripFlights(data);
+        if (
+          roundTripResults.onwards.length === 0 ||
+          roundTripResults.return.length === 0
+        ) {
+          setAlertMessage("No Flights available on this route for round trip.");
+        } else {
+          setRoundTripFlights(roundTripResults);
+        }
+      }
     } catch (error) {
       setSearched(false);
       setAlertMessage((error as Error).message);
@@ -104,7 +122,11 @@ export function FlightSearchForm() {
             todayString={todayString}
             maxDateString={maxDateString}
             handleCurrencyChange={handleCurrencyChange}
-            selectedCurrency={selectedCurrency} returnDate={""}          />
+            selectedCurrency={selectedCurrency}
+            returnDate={""}
+            tripType={tripType}
+            setTripType={setTripType}
+          />
           <Button type="submit">Search Flights</Button>
 
           {flightsLoading && (
@@ -116,7 +138,7 @@ export function FlightSearchForm() {
           )}
         </form>
       </div>
-      {(alertMessage || searched) && (
+      {(alertMessage || searched) && tripType === "one_way" && (
         <NavigationButtons
           isPrevDisabled={isPrevDisabled}
           isNextDisabled={isNextDisabled}
@@ -124,12 +146,23 @@ export function FlightSearchForm() {
           onNext={() => updateDateAndFetchFlights(1)}
         />
       )}
-      {searched && (
+      {searched && tripType === "one_way" ? (
         <FlightsDisplay
           flights={flights}
           passengers={formData.passengers}
           selectedCurrency={selectedCurrency}
         />
+      ) : (
+        <>
+          {roundtripFlights.onwards.length > 0 &&
+            roundtripFlights.return.length > 0 && (
+              <RoundTripResults
+                data={roundtripFlights}
+                passengers={formData.passengers}
+                selectedCurrency={selectedCurrency}
+              />
+            )}
+        </>
       )}
       {alertMessage && (
         <div className={styles.alertMessageContainer}>
