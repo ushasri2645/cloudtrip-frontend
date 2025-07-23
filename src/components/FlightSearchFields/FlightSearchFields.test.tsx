@@ -29,7 +29,7 @@ describe("Test for FlightSearchFields Component", () => {
     expect(screen.getByLabelText(/Source/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Destination/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Departure Date/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Number of Passengers/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Passengers/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Class Type/i)).toBeInTheDocument();
   });
 
