@@ -558,22 +558,42 @@ describe("Test for FlightSearchForm />", () => {
     const sourceInput = screen.getByLabelText(/source/i);
     const destinationInput = screen.getByLabelText(/destination/i);
     const dateInput = screen.getByLabelText(/date/i);
+    const roundTripRadio = screen.getByRole("radio", { name: /round trip/i });
+    fireEvent.click(roundTripRadio);
+    const returnDateInput = screen.getByLabelText(/return date:/i);
     const passengersInput = screen.getByLabelText(/passengers/i);
     const classSelect = screen.getByLabelText(/class/i);
-    const searchButton = screen.getByRole("button", {
-      name: /search flights/i,
-    });
 
     fireEvent.change(sourceInput, { target: { value: "InvalidCity" } });
     fireEvent.change(destinationInput, { target: { value: "Delhi" } });
     fireEvent.change(dateInput, { target: { value: "2025-07-22" } });
+    fireEvent.change(returnDateInput, { target: { value: "2025-07-22" } });
     fireEvent.change(passengersInput, { target: { value: "2" } });
     fireEvent.change(classSelect, { target: { value: "economy" } });
+    expect(returnDateInput).toHaveValue("2025-07-22");
 
-    fireEvent.click(searchButton);
+
+  });
+  it("should show error for invalid city", async () => {
+    renderWithCitiesContext({ cities: ["Mumbai", "Delhi"] });
+
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { value: "InvalidCity" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { value: "2025-08-01" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /search flights/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/invalid city selected/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/invalid city selected/i)
+      ).toBeInTheDocument();
     });
   });
+
 });
