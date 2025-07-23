@@ -61,7 +61,7 @@ describe("Test for FlightSearchForm />", () => {
       target: { name: "date", value: "2025-08-01" },
     });
     expect(dateInput).toHaveValue("2025-08-01");
-    const passengersInput = screen.getByLabelText(/number of passengers/i);
+    const passengersInput = screen.getByLabelText(/passengers/i);
     fireEvent.change(passengersInput, {
       target: { name: "passengers", value: 3 },
     });
