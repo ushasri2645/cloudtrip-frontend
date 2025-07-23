@@ -1,39 +1,49 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import TripSelector from "./TripSelector";
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
+import TripSelector from './TripSelector';
 
-describe("TripSelector Component", () => {
-    it("should render both radio buttons", () => {
-        render(<TripSelector />);
+describe('TripSelector', () => {
+    it('renders both trip type options', () => {
+        const mockSetTripType = vi.fn();
+
+        render(<TripSelector tripType="one_way" setTripType={mockSetTripType} />);
+
         expect(screen.getByLabelText(/one way/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/round trip/i)).toBeInTheDocument();
     });
 
-    it("should selects 'One Way' by default", () => {
-        render(<TripSelector />);
-        const oneWayRadio = screen.getByLabelText(/one way/i) as HTMLInputElement;
-        const roundTripRadio = screen.getByLabelText(/round trip/i) as HTMLInputElement;
+    it('checks the correct radio based on tripType prop', () => {
+        const mockSetTripType = vi.fn();
 
-        expect(oneWayRadio.checked).toBe(true);
-        expect(roundTripRadio.checked).toBe(false);
+        const { rerender } = render(
+            <TripSelector tripType="one_way" setTripType={mockSetTripType} />
+        );
+
+        expect(screen.getByLabelText(/one way/i)).toBeChecked();
+        expect(screen.getByLabelText(/round trip/i)).not.toBeChecked();
+
+        rerender(<TripSelector tripType="round_trip" setTripType={mockSetTripType} />);
+        expect(screen.getByLabelText(/round trip/i)).toBeChecked();
+        expect(screen.getByLabelText(/one way/i)).not.toBeChecked();
     });
+    it("calls setTripType with correct value when 'Round Trip' is selected", () => {
+        const mockSetTripType = vi.fn();
+        render(<TripSelector tripType="one_way" setTripType={mockSetTripType} />);
 
-    it("should selects 'Round Trip' when clicked", () => {
-        render(<TripSelector />);
-        const roundTripRadio = screen.getByLabelText(/round trip/i) as HTMLInputElement;
-
+        const roundTripRadio = screen.getByLabelText("Round Trip") as HTMLInputElement;
         fireEvent.click(roundTripRadio);
 
-        expect(roundTripRadio.checked).toBe(true);
-        expect((screen.getByLabelText(/one way/i) as HTMLInputElement).checked).toBe(false);
+        expect(mockSetTripType).toHaveBeenCalledWith("round_trip");
     });
+    it("calls setTripType with correct value when 'One Way' is selected", () => {
+        const mockSetTripType = vi.fn();
+        render(<TripSelector tripType="round_trip" setTripType={mockSetTripType} />);
 
-    it("should allows switching from Round Trip back to One Way", () => {
-        render(<TripSelector />);
-        const oneWayRadio = screen.getByLabelText(/one way/i) as HTMLInputElement;
-        const roundTripRadio = screen.getByLabelText(/round trip/i) as HTMLInputElement;
-        fireEvent.click(roundTripRadio);
-        expect(roundTripRadio.checked).toBe(true);
+        const oneWayRadio = screen.getByLabelText("One Way") as HTMLInputElement;
         fireEvent.click(oneWayRadio);
-        expect(oneWayRadio.checked).toBe(true);
+
+        expect(mockSetTripType).toHaveBeenCalledWith("one_way");
     });
+
+
 });
