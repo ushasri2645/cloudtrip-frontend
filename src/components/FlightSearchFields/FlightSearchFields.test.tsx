@@ -9,6 +9,7 @@ const mockFormData: FlightSearchFormData = {
   date: "2025-08-01",
   passengers: 1,
   class_type: "economy",
+  returnDate: "",
 };
 
 describe("Test for FlightSearchFields Component", () => {
@@ -23,13 +24,16 @@ describe("Test for FlightSearchFields Component", () => {
         maxDateString="2025-12-31"
         handleCurrencyChange={vi.fn()}
         selectedCurrency="INR"
+        returnDate={""}
+        tripType={""}
+        setTripType={vi.fn()}
       />
     );
 
     expect(screen.getByLabelText(/Source/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Destination/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Departure Date/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Number of Passengers/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Passengers/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Class Type/i)).toBeInTheDocument();
   });
 
@@ -46,6 +50,9 @@ describe("Test for FlightSearchFields Component", () => {
         maxDateString="2025-12-31"
         handleCurrencyChange={mockHandleCurrencyChange}
         selectedCurrency="INR"
+        returnDate={""}
+        tripType={""}
+        setTripType={vi.fn()}
       />
     );
 
@@ -67,6 +74,9 @@ describe("Test for FlightSearchFields Component", () => {
         maxDateString="2025-12-31"
         handleCurrencyChange={vi.fn()}
         selectedCurrency="INR"
+        returnDate={""}
+        tripType={""}
+        setTripType={vi.fn()}
       />
     );
 
@@ -88,6 +98,9 @@ describe("Test for FlightSearchFields Component", () => {
         maxDateString="2025-12-31"
         handleCurrencyChange={vi.fn()}
         selectedCurrency="INR"
+        returnDate={""}
+        tripType={""}
+        setTripType={vi.fn()}
       />
     );
 

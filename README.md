@@ -38,9 +38,14 @@ CloudTrip is a simple yet powerful **flight booking system** built with Ruby tha
 - Seat-based pricing
 - Date-based pricing
 
-### ✅ Round Trip Support 
-- Book **round trips** with a **5% discount**.
-- Return flights must also match passenger and class criteria.
+### Round Trip Booking Support ✅
+- Easily book round trip flights in a single flow.
+- 5% discount automatically applied on round trip total fare.
+Return flight must:
+- Match the same number of passengers
+- Have enough seats in the same class type
+- System searches for available return flights from destination → source.
+- Displays a breakdown of onward and return trip details, timings, and fare.
 
 ## TechStack
 - Vite + React
