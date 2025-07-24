@@ -57,6 +57,7 @@ function FlightDisplay({
               <div className={styles.durationCircle}></div>
             </div>
           </div>
+          <p className={styles.recurrenceDays}>{flight.recurrence_days}</p>
           <div className={styles.topRightSection}>
             <span className={styles.flightNumber}>{classTypeFormatted}</span>
             <span className={styles.flightNumber}>
@@ -95,7 +96,9 @@ function FlightDisplay({
               <div>
                 Dynamic Price: <span>{convertCurrency(flight.extra_price,selectedCurrency)}</span>
               </div>
+              
             </div>
+            
           </div>
 
           <div className={styles.book}>
