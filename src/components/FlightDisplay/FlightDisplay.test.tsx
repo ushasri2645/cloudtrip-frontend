@@ -20,6 +20,7 @@ const mockFlight: FlightSearchResult = {
   extra_price: 50,
   price_per_person: 350,
   total_fare: 700,
+  recurrence_days: "One Time Flight"
 };
 
 describe("FlightDisplay", () => {
@@ -31,6 +32,7 @@ describe("FlightDisplay", () => {
     expect(screen.getByText("2025-07-21 at 12:00 AM")).toBeInTheDocument();
     expect(screen.getByText("ECONOMY")).toBeInTheDocument();
     expect(screen.getByText("50")).toBeInTheDocument();
+    expect(screen.getByText("One Time Flight")).toBeInTheDocument();
     expect(
       screen.getByText("Total Fare for 2 passengers:")
     ).toBeInTheDocument();
