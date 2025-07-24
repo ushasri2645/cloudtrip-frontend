@@ -100,6 +100,11 @@
   color: black;
 }
 
+.recurrenceDays{
+  color:  rgb(71, 134, 134);
+  font-size: 0.8rem;
+}
+
 .book {
   display: flex;
   flex-direction: column;
