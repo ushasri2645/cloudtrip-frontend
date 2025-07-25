@@ -17,6 +17,7 @@ const mockFlight: FlightSearchResult = {
   extra_price: 50,
   price_per_person: 350,
   total_fare: 700,
+  recurrence_days: ""
 };
 
 describe("Tests for bookFlight service", () => {

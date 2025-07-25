@@ -26,6 +26,7 @@ const mockFlights: FlightSearchResult[] = [
     price_per_person: 0,
     base_price: 0,
     extra_price: 0,
+    recurrence_days: ""
   },
 ];
 
