@@ -87,4 +87,36 @@ describe("Tests for RoundTripResults", () => {
       expect(screen.getByText("AI102")).toBeInTheDocument();
     });
   });
+  it("should switch back to onward flights when onward tab is clicked", async () => {
+    render(
+      <RoundTripResults data={mockData} passengers={2} selectedCurrency="INR" />
+    );
+    const [onwardNext] = screen.getAllByRole("button", { name: /Next/i });
+    fireEvent.click(onwardNext);
+    const onwardTab = screen.getByRole("button", { name: /HYD → DEL/i });
+    fireEvent.click(onwardTab);
+    expect(screen.getByText("Flight AI101")).toBeInTheDocument();
+  });
+
+  it("should close modal when onModalClose is triggered", async () => {
+    render(
+      <RoundTripResults data={mockData} passengers={2} selectedCurrency="INR" />
+    );
+    const [onwardNext] = screen.getAllByRole("button", { name: /Next/i });
+    fireEvent.click(onwardNext);
+    await waitFor(() => {
+      const returnNext = screen.getByRole("button", { name: /Next/i });
+      fireEvent.click(returnNext);
+    });
+    await waitFor(() => {
+      expect(screen.getByText("AI101")).toBeInTheDocument();
+      expect(screen.getByText("AI102")).toBeInTheDocument();
+    });
+    const closeButton = screen.getByRole("button", { name: /✕/i });
+    fireEvent.click(closeButton);
+    await waitFor(() => {
+      expect(screen.queryByText("AI101")).not.toBeInTheDocument();
+      expect(screen.queryByText("AI102")).not.toBeInTheDocument();
+    });
+  });
 });
