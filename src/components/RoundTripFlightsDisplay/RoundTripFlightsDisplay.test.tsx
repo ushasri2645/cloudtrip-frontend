@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import type { RoundTripSearchResult } from "../../types/RoundTripSearchResult";
 import { RoundTripResults } from "./RoundTripFlightsDisplay";
 
@@ -39,8 +39,8 @@ const mockData: RoundTripSearchResult = {
   ],
 };
 
-describe("RoundTripResults", () => {
-  it("renders onward flights by default", () => {
+describe("Tests for RoundTripResults", () => {
+  it("should render onward flights by default", () => {
     render(
       <RoundTripResults data={mockData} passengers={2} selectedCurrency="INR" />
     );
@@ -51,7 +51,7 @@ describe("RoundTripResults", () => {
     expect(screen.queryByText("Flight AI102")).not.toBeInTheDocument();
   });
 
-  it("switches to return flights on tab click", () => {
+  it("should switch to return flights on tab click", () => {
     render(
       <RoundTripResults data={mockData} passengers={2} selectedCurrency="INR" />
     );
@@ -63,7 +63,7 @@ describe("RoundTripResults", () => {
     expect(screen.queryByText("Flight AI101")).not.toBeInTheDocument();
   });
 
-  it("has both direction buttons", () => {
+  it("should have both direction buttons", () => {
     render(
       <RoundTripResults data={mockData} passengers={2} selectedCurrency="INR" />
     );
@@ -71,5 +71,20 @@ describe("RoundTripResults", () => {
     expect(onwardElements.length).toBeGreaterThanOrEqual(1);
     const returnElements = screen.getAllByText("DEL → HYD");
     expect(returnElements.length).toBeGreaterThanOrEqual(1);
+  });
+  it("should open modal after selecting onward and return flights", async () => {
+    render(
+      <RoundTripResults data={mockData} passengers={2} selectedCurrency="INR" />
+    );
+    const nextButtons = screen.getAllByRole("button", { name: /Next/i });
+    fireEvent.click(nextButtons[0]);
+    await waitFor(() => {
+      const returnNextButton = screen.getByRole("button", { name: /Next/i });
+      fireEvent.click(returnNextButton);
+    });
+    await waitFor(() => {
+      expect(screen.getByText("AI101")).toBeInTheDocument();
+      expect(screen.getByText("AI102")).toBeInTheDocument();
+    });
   });
 });
