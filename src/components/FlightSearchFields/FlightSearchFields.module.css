@@ -142,6 +142,10 @@ select:focus {
 .swapButton::before {
   content: "⇆";
 }
+.displayDiscount{
+  color: rgb(104, 186, 186);
+  font-weight: bold;
+}
 
 @media (max-width: 600px) {
   .swapButton::before {
