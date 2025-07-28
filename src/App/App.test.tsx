@@ -1,8 +1,9 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
-import { App } from "./App";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import { describe, expect, it } from "vitest";
 import { CitiesProvider } from "../contexts/Cities/CitiesProvider";
+import { App } from "./App";
 
 describe("App Component", () => {
   let queryClient: QueryClient;
@@ -19,7 +20,9 @@ describe("App Component", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <CitiesProvider>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </CitiesProvider>
       </QueryClientProvider>
     );
@@ -32,7 +35,9 @@ describe("App Component", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <CitiesProvider>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </CitiesProvider>
       </QueryClientProvider>
     );

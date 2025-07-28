@@ -1,18 +1,15 @@
-import AboutUs from "../components/AboutUs/AboutUs";
+import { Route, Routes } from "react-router-dom";
 import Footer from "../components/Footer/Footer";
-import { Hero } from "../components/Hero/HeroSection";
 import Navbar from "../components/Navbar/Navbar";
-import { FlightSearchForm } from "../components/SearchForm/SearchForm";
-import SpecialOffers from "../components/SpecialOffers/SpecialOffers";
+import HomePage from "../pages/HomePage";
 
 export function App() {
   return (
     <div>
       <Navbar />
-      <Hero />
-      <FlightSearchForm />
-      <SpecialOffers />
-      <AboutUs />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
       <Footer />
     </div>
   );
