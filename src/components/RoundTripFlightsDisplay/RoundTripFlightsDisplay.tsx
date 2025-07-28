@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import type { FlightSearchResult } from "../../types/FlightSearchResult";
 import type { RoundTripSearchResult } from "../../types/RoundTripSearchResult";
-import FlightDisplay from "../FlightDisplay/FlightDisplay";
+import RoundTripFlightDisplay from "../RoundTripFlightDisplay/RoundTripFlightDisplay";
+import TwoWayFlightDetails from "../TwoWayFlightDisplay/TwoWayFlightDetails";
 import styles from "./RoundTripFlightsDisplay.module.css";
 
 type Props = {
@@ -16,6 +17,20 @@ export const RoundTripResults: React.FC<Props> = ({
   selectedCurrency,
 }) => {
   const [activeTab, setActiveTab] = useState<"onwards" | "return">("onwards");
+  const [selectedOnward, setSelectedOnward] =
+    useState<FlightSearchResult | null>(null);
+  const [selectedReturn, setSelectedReturn] =
+    useState<FlightSearchResult | null>(null);
+  const [open, setOpen] = useState(false);
+
+  const handleOnwardSelect = (flight: FlightSearchResult) => {
+    setSelectedOnward(flight);
+    setActiveTab("return");
+  };
+
+  const handleReturnSelect = (flight: FlightSearchResult) => {
+    setSelectedReturn(flight);
+  };
 
   const source = data.onwards[0].source;
   const destination = data.onwards[0].destination;
@@ -48,15 +63,28 @@ export const RoundTripResults: React.FC<Props> = ({
       <div className={styles.cardsWrapper}>
         {(activeTab === "onwards" ? data.onwards : data.return).map(
           (flight: FlightSearchResult, index: number) => (
-            <FlightDisplay
+            <RoundTripFlightDisplay
               key={index}
               flight={flight}
               passengers={passengers}
               selectedCurrency={selectedCurrency}
+              handleOnwardSelect={handleOnwardSelect}
+              handleReturnSelect={handleReturnSelect}
+              tab={activeTab}
+              isSelected={selectedOnward ? true : false}
+              setOpen={setOpen}
             />
           )
         )}
       </div>
+      {open && selectedOnward && selectedReturn && (
+        <TwoWayFlightDetails
+          onwardFlight={selectedOnward}
+          returnFlight={selectedReturn}
+          onModalClose={() => setOpen(false)}
+          passengers={passengers}
+        />
+      )}
     </div>
   );
 };
