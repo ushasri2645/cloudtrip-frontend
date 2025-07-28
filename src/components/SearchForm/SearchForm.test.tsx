@@ -675,6 +675,7 @@ describe("Test for FlightSearchForm />", () => {
     const returnDateInput = screen.getByLabelText(/return date:/i);
     const passengersInput = screen.getByLabelText(/passengers/i);
     const classSelect = screen.getByLabelText(/class/i);
+        
 
     fireEvent.change(sourceInput, { target: { value: "InvalidCity" } });
     fireEvent.change(destinationInput, { target: { value: "Delhi" } });
@@ -682,6 +683,7 @@ describe("Test for FlightSearchForm />", () => {
     fireEvent.change(returnDateInput, { target: { value: "2025-07-22" } });
     fireEvent.change(passengersInput, { target: { value: "2" } });
     fireEvent.change(classSelect, { target: { value: "economy" } });
+    expect(screen.getByText("Hurray, you can avail 5% discount on Round Trip 🎉")).toBeInTheDocument();
     expect(returnDateInput).toHaveValue("2025-07-22");
   });
   it("should show error for invalid city", async () => {
