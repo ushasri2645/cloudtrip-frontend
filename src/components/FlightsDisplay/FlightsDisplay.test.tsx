@@ -12,11 +12,12 @@ const mockFlights: FlightSearchResult[] = [
     arrival_date: "2025-07-20",
     arrival_time: "10:00",
     class_type: "economy",
-    available_seats:30,
+    available_seats: 30,
     base_price: 150,
     extra_price: 25,
     price_per_person: 175,
     total_fare: 350,
+    recurrence_days: ""
   },
 ];
 

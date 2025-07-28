@@ -12,4 +12,5 @@ export type FlightSearchResult = {
   price_per_person: number;
   base_price: number;
   extra_price: number;
+  recurrence_days: string;
 };

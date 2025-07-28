@@ -48,6 +48,7 @@ describe("Test for FlightSearchForm />", () => {
   });
 
   it("should update form fields on change", () => {
+    const today = new Date().toISOString().split("T")[0];
     renderWithCitiesContext({
       cities: ["Mumbai", "Delhi"],
     });
@@ -64,9 +65,9 @@ describe("Test for FlightSearchForm />", () => {
     expect(destInput).toHaveValue("Delhi");
     const dateInput = screen.getByLabelText(/departure date/i);
     fireEvent.change(dateInput, {
-      target: { name: "date", value: "2025-08-01" },
+      target: { name: "date", value: today },
     });
-    expect(dateInput).toHaveValue("2025-08-01");
+    expect(dateInput).toHaveValue(today);
     const passengersInput = screen.getByLabelText(/passengers/i);
     fireEvent.change(passengersInput, {
       target: { name: "passengers", value: 3 },
@@ -106,6 +107,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
+        recurrence_days: ""
       },
     ];
     vi.mocked(fetchFlights).mockResolvedValue(mockFlights);
@@ -286,6 +288,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
+        recurrence_days: ""
       },
     ];
 
@@ -340,6 +343,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
+        recurrence_days: ""
       },
     ];
     vi.mocked(fetchFlights).mockResolvedValueOnce(mockFlights);
@@ -406,6 +410,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
+        recurrence_days: ""
       },
     ];
     vi.mocked(fetchFlights).mockResolvedValueOnce(mockFlights);
@@ -446,6 +451,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
+        recurrence_days: ""
       },
     ];
     vi.mocked(fetchFlights).mockResolvedValueOnce(mockFlights);
@@ -486,6 +492,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
+        recurrence_days: ""
       },
     ];
 
@@ -504,6 +511,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
+        recurrence_days: ""
       },
     ];
 
@@ -559,6 +567,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
+        recurrence_days: ""
       },
     ];
 
@@ -577,6 +586,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
+        recurrence_days: ""
       },
     ];
 
@@ -629,6 +639,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
+        recurrence_days: ""
       },
     ];
 
@@ -665,6 +676,7 @@ describe("Test for FlightSearchForm />", () => {
     expect(screen.queryByText(/F300/i)).not.toBeInTheDocument();
   });
   it("should show error for invalid city", async () => {
+    const today = new Date().toISOString().split("T")[0];
     renderWithCitiesContext({ cities: ["Mumbai", "Delhi"] });
 
     const sourceInput = screen.getByLabelText(/source/i);
@@ -679,8 +691,7 @@ describe("Test for FlightSearchForm />", () => {
 
     fireEvent.change(sourceInput, { target: { value: "InvalidCity" } });
     fireEvent.change(destinationInput, { target: { value: "Delhi" } });
-    fireEvent.change(dateInput, { target: { value: "2025-07-22" } });
-    fireEvent.change(returnDateInput, { target: { value: "2025-07-22" } });
+    fireEvent.change(dateInput, { target: { value: today } });
     fireEvent.change(passengersInput, { target: { value: "2" } });
     fireEvent.change(classSelect, { target: { value: "economy" } });
     expect(screen.getByText("Hurray, you can avail 5% discount on Round Trip 🎉")).toBeInTheDocument();
@@ -705,4 +716,5 @@ describe("Test for FlightSearchForm />", () => {
       expect(screen.getByText(/invalid city selected/i)).toBeInTheDocument();
     });
   });
+
 });
