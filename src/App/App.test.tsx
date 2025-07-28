@@ -1,42 +1,63 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { MemoryRouter } from "react-router-dom";
+import { describe, expect, test, vi } from "vitest";
 import { App } from "./App";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { CitiesProvider } from "../contexts/Cities/CitiesProvider";
 
-describe("App Component", () => {
-  let queryClient: QueryClient;
-  beforeEach(() => {
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-        },
-      },
-    });
-  });
-  it("renders Navbar component", () => {
+vi.mock("../components/Navbar/Navbar", () => ({
+  default: () => <div>Mock Navbar</div>,
+}));
+
+vi.mock("../components/Footer/Footer", () => ({
+  default: () => <div>Mock Footer</div>,
+}));
+
+vi.mock("../pages/HomePage", () => ({
+  default: () => <div>Home Page</div>,
+}));
+
+vi.mock("../pages/Login/Login", () => ({
+  default: () => <div>Login Page</div>,
+}));
+
+describe("App routing with Vitest", () => {
+  test("renders Navbar and Footer on all routes", () => {
     render(
-      <QueryClientProvider client={queryClient}>
-        <CitiesProvider>
-          <App />
-        </CitiesProvider>
-      </QueryClientProvider>
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>
     );
 
-    const navTextInstances = screen.getAllByText(/CloudTrip/i);
-    expect(navTextInstances.length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText("Mock Navbar")).toBeInTheDocument();
+    expect(screen.getByText("Mock Footer")).toBeInTheDocument();
   });
 
-  it("renders Footer component", () => {
+  test("renders HomePage at '/'", () => {
     render(
-      <QueryClientProvider client={queryClient}>
-        <CitiesProvider>
-          <App />
-        </CitiesProvider>
-      </QueryClientProvider>
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>
     );
-    const footerText = screen.getByText(/All rights reserved/i);
-    expect(footerText).toBeInTheDocument();
+
+    expect(screen.getByText("Home Page")).toBeInTheDocument();
+  });
+
+  test("renders Login page at '/login'", () => {
+    render(
+      <MemoryRouter initialEntries={["/login"]}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText("Login Page")).toBeInTheDocument();
+  });
+
+  test("shows nothing for unknown route", () => {
+    render(
+      <MemoryRouter initialEntries={["/random"]}>
+        <App />
+      </MemoryRouter>
+    );
+    expect(screen.queryByText("Home Page")).not.toBeInTheDocument();
+    expect(screen.queryByText("Login Page")).not.toBeInTheDocument();
   });
 });
