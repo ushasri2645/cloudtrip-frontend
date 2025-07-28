@@ -38,6 +38,7 @@ const mockOnwardFlight: FlightSearchResult = {
   extra_price: 1000,
   total_fare: 5000,
   price_per_person: 0,
+  recurrence_days: ""
 };
 
 const mockReturnFlight: FlightSearchResult = {
@@ -54,6 +55,7 @@ const mockReturnFlight: FlightSearchResult = {
   extra_price: 1500,
   total_fare: 6000,
   price_per_person: 0,
+  recurrence_days: ""
 };
 
 const setup = () => {

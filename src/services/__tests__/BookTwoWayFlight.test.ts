@@ -17,6 +17,7 @@ export const mockOnwardFlight: FlightSearchResult = {
   price_per_person: 5250,
   base_price: 3500,
   extra_price: 1750,
+  recurrence_days: ""
 };
 
 export const mockReturnFlight: FlightSearchResult = {
@@ -33,6 +34,7 @@ export const mockReturnFlight: FlightSearchResult = {
   price_per_person: 5500,
   base_price: 3600,
   extra_price: 1900,
+  recurrence_days: ""
 };
 
 

@@ -18,6 +18,7 @@ const mockData: RoundTripSearchResult = {
       price_per_person: 2000,
       base_price: 1800,
       extra_price: 200,
+      recurrence_days: ""
     },
   ],
   return: [
@@ -35,6 +36,7 @@ const mockData: RoundTripSearchResult = {
       price_per_person: 2000,
       base_price: 1800,
       extra_price: 200,
+      recurrence_days: ""
     },
   ],
 };

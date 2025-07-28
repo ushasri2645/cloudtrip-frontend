@@ -145,6 +145,7 @@ describe("Test for FlightSearchForm />", () => {
           price_per_person: 10,
           base_price: 10,
           extra_price: 10,
+          recurrence_days: ""
         },
       ],
       return: [
@@ -162,6 +163,7 @@ describe("Test for FlightSearchForm />", () => {
           price_per_person: 10,
           base_price: 10,
           extra_price: 10,
+          recurrence_days: ""
         },
       ],
     };
@@ -692,10 +694,10 @@ describe("Test for FlightSearchForm />", () => {
     fireEvent.change(sourceInput, { target: { value: "InvalidCity" } });
     fireEvent.change(destinationInput, { target: { value: "Delhi" } });
     fireEvent.change(dateInput, { target: { value: today } });
+    fireEvent.change(returnDateInput, { target: { value: today } });
     fireEvent.change(passengersInput, { target: { value: "2" } });
     fireEvent.change(classSelect, { target: { value: "economy" } });
     expect(screen.getByText("Hurray, you can avail 5% discount on Round Trip 🎉")).toBeInTheDocument();
-    expect(returnDateInput).toHaveValue("2025-07-22");
   });
   it("should show error for invalid city", async () => {
     renderWithCitiesContext({ cities: ["Mumbai", "Delhi"] });

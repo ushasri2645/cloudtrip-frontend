@@ -17,6 +17,7 @@ const mockFlight: FlightSearchResult = {
   departure_time: "",
   arrival_time: "",
   price_per_person: 0,
+  recurrence_days: ""
 };
 
 describe("Tests for RoundTripFlightDisplay", () => {
