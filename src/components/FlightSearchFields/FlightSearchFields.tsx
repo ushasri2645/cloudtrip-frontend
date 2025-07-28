@@ -114,6 +114,7 @@ export function FlightSearchFields({
               onChange={handleChange}
               min={formData.date}
               max={maxDateString}
+              disabled={!formData.date}
               required
             />
           </div>
