@@ -1,0 +1,170 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.modalContent {
+  width: 100%;
+  max-width: 570px;
+  max-height: 95vh;
+  overflow-y: auto;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  position: relative;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+.label {
+  color: black;
+  font-weight: bold;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.7rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.title {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.flightSection {
+  background-color: rgba(190, 230, 255, 0.1);
+  border: 0.9px solid rgba(190, 230, 255);
+  border-radius: 1rem;
+  padding: 0.75rem;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.subTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+  color: #333;
+}
+
+.detailsGrid {
+  font-size: 0.85rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  color: #444;
+}
+
+.summary {
+  background-color: #fefefe;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px 20px;
+  width: 100%;
+  max-width: 400px;
+  margin: 16px auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.summary p {
+  margin: 6px 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.finalFare {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+  font-weight: 600;
+  font-size: 16px;
+  color: #2b2b2b;
+}
+
+.bookButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  width: fit-content;
+  margin: 0.8rem auto 0;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  background-color: rgb(104, 186, 186);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.bookButton:hover {
+  background-color: rgb(71, 134, 134);
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .modalContent {
+    padding: 1.5rem;
+    height: auto;
+  }
+
+  .detailsGrid {
+    grid-template-columns: 1fr; 
+    font-size: 0.9rem;
+  }
+
+  .summary {
+    font-size: 13px;
+    padding: 14px 16px;
+  }
+
+  .finalFare {
+    font-size: 15px;
+  }
+
+  .bookButton {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.9rem;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+}

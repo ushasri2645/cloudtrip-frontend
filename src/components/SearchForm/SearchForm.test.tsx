@@ -5,8 +5,14 @@ import {
   type CitiesContextType,
 } from "../../contexts/Cities/CitiesContext";
 import { fetchFlights } from "../../services/FetchFlights";
+import { fetchRoundTripFlights } from "../../services/FetchRoundTripFlight";
 import type { FlightSearchResult } from "../../types/FlightSearchResult";
+import type { RoundTripSearchResult } from "../../types/RoundTripSearchResult";
 import { FlightSearchForm } from "./SearchForm";
+
+vi.mock("../../services/FetchRoundTripFlight", () => ({
+  fetchRoundTripFlights: vi.fn(),
+}));
 
 vi.mock("../../services/FetchFlights", () => ({
   fetchFlights: vi.fn(),
@@ -62,7 +68,7 @@ describe("Test for FlightSearchForm />", () => {
       target: { name: "date", value: today },
     });
     expect(dateInput).toHaveValue(today);
-    const passengersInput = screen.getByLabelText(/number of passengers/i);
+    const passengersInput = screen.getByLabelText(/passengers/i);
     fireEvent.change(passengersInput, {
       target: { name: "passengers", value: 3 },
     });
@@ -122,6 +128,114 @@ describe("Test for FlightSearchForm />", () => {
     expect(screen.getByText(/F100/i)).toBeInTheDocument();
   });
 
+  it("should submit the form and display round trip flights on success", async () => {
+    const mockRoundTripResults: RoundTripSearchResult = {
+      onwards: [
+        {
+          flight_number: "F200",
+          source: "Mumbai",
+          destination: "Delhi",
+          departure_time: "2025-08-10T08:00:00Z",
+          arrival_time: "2025-08-10T10:00:00Z",
+          total_fare: 600,
+          departure_date: "2025-08-10",
+          arrival_date: "2025-08-10",
+          class_type: "economy",
+          available_seats: 12,
+          price_per_person: 10,
+          base_price: 10,
+          extra_price: 10,
+          recurrence_days: ""
+        },
+      ],
+      return: [
+        {
+          flight_number: "F201",
+          source: "Delhi",
+          destination: "Mumbai",
+          departure_time: "2025-08-15T18:00:00Z",
+          arrival_time: "2025-08-15T20:00:00Z",
+          total_fare: 650,
+          departure_date: "2025-08-15",
+          arrival_date: "2025-08-15",
+          class_type: "economy",
+          available_seats: 15,
+          price_per_person: 10,
+          base_price: 10,
+          extra_price: 10,
+          recurrence_days: ""
+        },
+      ],
+    };
+
+    vi.mocked(fetchRoundTripFlights).mockResolvedValue(mockRoundTripResults);
+
+    renderWithCitiesContext();
+
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: "2025-08-10" },
+    });
+    const oneWayRadio = screen.getByLabelText("Round Trip") as HTMLInputElement;
+    fireEvent.click(oneWayRadio);
+
+    fireEvent.change(screen.getByLabelText(/return date/i), {
+      target: { name: "returnDate", value: "2025-08-15" },
+    });
+
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+
+    await waitFor(() => {
+      expect(fetchRoundTripFlights).toHaveBeenCalled();
+    });
+    expect(screen.getByText("Flight F200")).toBeInTheDocument();
+    const elements = screen.getAllByText("DELHI → MUMBAI");
+    expect(elements.length).toBeGreaterThanOrEqual(1);
+    fireEvent.click(elements[0]);
+    expect(elements[0].tagName).toBe("BUTTON");
+    expect(screen.getByText("Flight F201")).toBeInTheDocument();
+  });
+
+  it("should submit the form and display no flights found message", async () => {
+    const mockRoundTripResults: RoundTripSearchResult = {
+      onwards: [],
+      return: [],
+    };
+
+    vi.mocked(fetchRoundTripFlights).mockResolvedValue(mockRoundTripResults);
+
+    renderWithCitiesContext();
+
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Mumbai" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: "2025-08-10" },
+    });
+    const oneWayRadio = screen.getByLabelText("Round Trip") as HTMLInputElement;
+    fireEvent.click(oneWayRadio);
+
+    fireEvent.change(screen.getByLabelText(/return date/i), {
+      target: { name: "returnDate", value: "2025-08-15" },
+    });
+
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+
+    await waitFor(() => {
+      expect(fetchRoundTripFlights).toHaveBeenCalled();
+    });
+    expect(
+      screen.getByText("No Flights available on this route for round trip.")
+    ).toBeInTheDocument();
+  });
   it("should throw error if getFlights fails after search is clicked", async () => {
     vi.mocked(fetchFlights).mockRejectedValueOnce(new Error("Failed to fetch"));
     window.alert = vi.fn();
@@ -570,19 +684,35 @@ describe("Test for FlightSearchForm />", () => {
     const sourceInput = screen.getByLabelText(/source/i);
     const destinationInput = screen.getByLabelText(/destination/i);
     const dateInput = screen.getByLabelText(/date/i);
+    const roundTripRadio = screen.getByRole("radio", { name: /round trip/i });
+    fireEvent.click(roundTripRadio);
+    const returnDateInput = screen.getByLabelText(/return date:/i);
     const passengersInput = screen.getByLabelText(/passengers/i);
     const classSelect = screen.getByLabelText(/class/i);
-    const searchButton = screen.getByRole("button", {
-      name: /search flights/i,
-    });
+        
 
     fireEvent.change(sourceInput, { target: { value: "InvalidCity" } });
     fireEvent.change(destinationInput, { target: { value: "Delhi" } });
     fireEvent.change(dateInput, { target: { value: today } });
+    fireEvent.change(returnDateInput, { target: { value: today } });
     fireEvent.change(passengersInput, { target: { value: "2" } });
     fireEvent.change(classSelect, { target: { value: "economy" } });
+    expect(screen.getByText("Hurray, you can avail 5% discount on Round Trip 🎉")).toBeInTheDocument();
+  });
+  it("should show error for invalid city", async () => {
+    renderWithCitiesContext({ cities: ["Mumbai", "Delhi"] });
 
-    fireEvent.click(searchButton);
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { value: "InvalidCity" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { value: "2025-08-01" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /search flights/i }));
 
     await waitFor(() => {
       expect(screen.getByText(/invalid city selected/i)).toBeInTheDocument();
