@@ -38,6 +38,11 @@ export function FlightSearchFields({
           Search for flights to your dream destinations and book with ease.
         </h1>
         <TripSelector tripType={tripType} setTripType={setTripType} />
+        {tripType === "round_trip" && (
+          <p className={styles.displayDiscount}>
+            Hurray, you can avail 5% discount on Round Trip 🎉
+          </p>
+        )}
         <div className={styles.currencyDropdown}>
           <select
             id="currency"
@@ -109,6 +114,7 @@ export function FlightSearchFields({
               onChange={handleChange}
               min={formData.date}
               max={maxDateString}
+              disabled={!formData.date}
               required
             />
           </div>
