@@ -6,6 +6,8 @@ import type { FlightSearchResult } from "../../types/FlightSearchResult";
 import styles from "./RoundTripFlightDisplay.module.css";
 
 function RoundTripFlightDisplay({
+  selectedOnward,
+  selectedReturn,
   flight,
   passengers,
   selectedCurrency,
@@ -15,6 +17,8 @@ function RoundTripFlightDisplay({
   isSelected,
   setOpen,
 }: {
+  selectedOnward: FlightSearchResult | null;
+  selectedReturn: FlightSearchResult | null;
   flight: FlightSearchResult;
   passengers: number;
   selectedCurrency: string;
@@ -42,7 +46,19 @@ function RoundTripFlightDisplay({
   };
 
   return (
-    <div key={flight.flight_number} className={styles.flightCard}>
+    // <div key={flight.flight_number} className={styles.flightCard }>
+    <div
+      key={flight.flight_number}
+      className={`${styles.flightCard} ${
+        (tab === "onwards" &&
+          selectedOnward?.flight_number === flight.flight_number) ||
+        (tab === "return" &&
+          selectedReturn?.flight_number === flight.flight_number)
+          ? styles.selectedCard
+          : ""
+      }`}
+      onClick={handleSelect}
+    >
       <div className={styles.flightCardContent}>
         <div className={styles.flightCardHeader}>
           <span className={styles.route}>
