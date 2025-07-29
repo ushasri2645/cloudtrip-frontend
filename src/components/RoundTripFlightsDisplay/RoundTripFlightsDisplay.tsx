@@ -64,6 +64,8 @@ export const RoundTripResults: React.FC<Props> = ({
         {(activeTab === "onwards" ? data.onwards : data.return).map(
           (flight: FlightSearchResult, index: number) => (
             <RoundTripFlightDisplay
+              selectedOnward={selectedOnward}
+              selectedReturn={selectedReturn}
               key={index}
               flight={flight}
               passengers={passengers}

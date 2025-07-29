@@ -17,7 +17,7 @@ const mockFlight: FlightSearchResult = {
   departure_time: "",
   arrival_time: "",
   price_per_person: 0,
-  recurrence_days: ""
+  recurrence_days: "",
 };
 
 describe("Tests for RoundTripFlightDisplay", () => {
@@ -36,6 +36,8 @@ describe("Tests for RoundTripFlightDisplay", () => {
         tab="onwards"
         isSelected={true}
         setOpen={mockSetOpen}
+        selectedOnward={null}
+        selectedReturn={null}
       />
     );
 
@@ -57,6 +59,8 @@ describe("Tests for RoundTripFlightDisplay", () => {
         tab="onwards"
         isSelected={true}
         setOpen={mockSetOpen}
+        selectedOnward={null}
+        selectedReturn={null}
       />
     );
 
@@ -77,6 +81,8 @@ describe("Tests for RoundTripFlightDisplay", () => {
         tab="return"
         isSelected={true}
         setOpen={mockSetOpen}
+        selectedOnward={null}
+        selectedReturn={null}
       />
     );
 
@@ -98,6 +104,8 @@ describe("Tests for RoundTripFlightDisplay", () => {
         tab="return"
         isSelected={false}
         setOpen={mockSetOpen}
+        selectedOnward={null}
+        selectedReturn={null}
       />
     );
 
@@ -116,10 +124,35 @@ describe("Tests for RoundTripFlightDisplay", () => {
         tab="onwards"
         isSelected={true}
         setOpen={mockSetOpen}
+        selectedOnward={null}
+        selectedReturn={null}
       />
     );
 
     expect(screen.getByText(/Base price:/i)).toBeInTheDocument();
     expect(screen.getByText(/Dynamic Price:/i)).toBeInTheDocument();
+  });
+  it("should apply selectedCard class when flight is selected", () => {
+    render(
+      <RoundTripFlightDisplay
+        flight={mockFlight}
+        passengers={1}
+        selectedCurrency="INR"
+        handleOnwardSelect={mockHandleOnwardSelect}
+        handleReturnSelect={mockHandleReturnSelect}
+        tab="onwards"
+        isSelected={true}
+        setOpen={mockSetOpen}
+        selectedOnward={mockFlight}
+        selectedReturn={null}
+      />
+    );
+    const allDivs = document.querySelectorAll("div");
+
+    const selectedCardExists = Array.from(allDivs).some((div) =>
+      div.className.includes("selectedCard")
+    );
+
+    expect(selectedCardExists).toBe(true);
   });
 });

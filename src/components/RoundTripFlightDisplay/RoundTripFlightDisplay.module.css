@@ -154,6 +154,10 @@
   display: inline-block;
   margin: 0 auto;
 }
+.selectedCard {
+  border: 2px solid rgba(6, 6, 6, 6);
+  transition: border-color 0.3s ease;
+}
 
 @keyframes spin {
   0% {
