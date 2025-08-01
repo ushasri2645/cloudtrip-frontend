@@ -107,7 +107,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
-        recurrence_days: ""
+        recurrence_days: "",
       },
     ];
     vi.mocked(fetchFlights).mockResolvedValue(mockFlights);
@@ -145,7 +145,7 @@ describe("Test for FlightSearchForm />", () => {
           price_per_person: 10,
           base_price: 10,
           extra_price: 10,
-          recurrence_days: ""
+          recurrence_days: "",
         },
       ],
       return: [
@@ -163,7 +163,7 @@ describe("Test for FlightSearchForm />", () => {
           price_per_person: 10,
           base_price: 10,
           extra_price: 10,
-          recurrence_days: ""
+          recurrence_days: "",
         },
       ],
     };
@@ -290,7 +290,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
-        recurrence_days: ""
+        recurrence_days: "",
       },
     ];
 
@@ -345,7 +345,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
-        recurrence_days: ""
+        recurrence_days: "",
       },
     ];
     vi.mocked(fetchFlights).mockResolvedValueOnce(mockFlights);
@@ -412,7 +412,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
-        recurrence_days: ""
+        recurrence_days: "",
       },
     ];
     vi.mocked(fetchFlights).mockResolvedValueOnce(mockFlights);
@@ -453,7 +453,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
-        recurrence_days: ""
+        recurrence_days: "",
       },
     ];
     vi.mocked(fetchFlights).mockResolvedValueOnce(mockFlights);
@@ -494,7 +494,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
-        recurrence_days: ""
+        recurrence_days: "",
       },
     ];
 
@@ -513,7 +513,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
-        recurrence_days: ""
+        recurrence_days: "",
       },
     ];
 
@@ -549,6 +549,25 @@ describe("Test for FlightSearchForm />", () => {
       expect(screen.getByText(/F100/)).toBeInTheDocument();
     });
   });
+  it("should show source and destination should be different", async () => {
+    const initialDate = "2025-08-02";
+    renderWithCitiesContext();
+
+    fireEvent.change(screen.getByLabelText(/source/i), {
+      target: { name: "source", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/destination/i), {
+      target: { name: "destination", value: "Delhi" },
+    });
+    fireEvent.change(screen.getByLabelText(/departure date/i), {
+      target: { name: "date", value: initialDate },
+    });
+
+    fireEvent.submit(screen.getByRole("button", { name: /Search Flights/i }));
+    expect(
+      screen.getByText("Source and Destination should not be same.")
+    ).toBeInTheDocument();
+  });
 
   it("should render the flights available on clicking next button", async () => {
     const initialDate = "2025-08-01";
@@ -569,7 +588,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
-        recurrence_days: ""
+        recurrence_days: "",
       },
     ];
 
@@ -588,7 +607,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
-        recurrence_days: ""
+        recurrence_days: "",
       },
     ];
 
@@ -641,7 +660,7 @@ describe("Test for FlightSearchForm />", () => {
         price_per_person: 10,
         base_price: 10,
         extra_price: 10,
-        recurrence_days: ""
+        recurrence_days: "",
       },
     ];
 
@@ -689,7 +708,6 @@ describe("Test for FlightSearchForm />", () => {
     const returnDateInput = screen.getByLabelText(/return date:/i);
     const passengersInput = screen.getByLabelText(/passengers/i);
     const classSelect = screen.getByLabelText(/class/i);
-        
 
     fireEvent.change(sourceInput, { target: { value: "InvalidCity" } });
     fireEvent.change(destinationInput, { target: { value: "Delhi" } });
@@ -697,7 +715,9 @@ describe("Test for FlightSearchForm />", () => {
     fireEvent.change(returnDateInput, { target: { value: today } });
     fireEvent.change(passengersInput, { target: { value: "2" } });
     fireEvent.change(classSelect, { target: { value: "economy" } });
-    expect(screen.getByText("Hurray, you can avail 5% discount on Round Trip 🎉")).toBeInTheDocument();
+    expect(
+      screen.getByText("Hurray, you can avail 5% discount on Round Trip 🎉")
+    ).toBeInTheDocument();
   });
   it("should show error for invalid city", async () => {
     renderWithCitiesContext({ cities: ["Mumbai", "Delhi"] });
@@ -718,5 +738,4 @@ describe("Test for FlightSearchForm />", () => {
       expect(screen.getByText(/invalid city selected/i)).toBeInTheDocument();
     });
   });
-
 });
