@@ -67,8 +67,14 @@ export function FlightSearchForm() {
     setFlightsLoading(true);
     try {
       if (!cities.includes(data.source) || !cities.includes(data.destination)) {
-        setSearched(false);
         setAlertMessage("Invalid City selected.");
+        return;
+      }
+      if (
+        formData.source === formData.destination
+      ) {
+        setSearched(false);
+        setAlertMessage("Source and Destination should not be same.");
         return;
       }
       if (tripType === "one_way") {
