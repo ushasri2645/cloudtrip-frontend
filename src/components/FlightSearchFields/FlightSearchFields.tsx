@@ -44,9 +44,11 @@ export function FlightSearchFields({
           </p>
         )}
         <div className={styles.currencyDropdown}>
+          <label htmlFor="currency" className={styles.visuallyHidden}>
+            Select currency
+          </label>
           <select
             id="currency"
-            aria-label="Select currency"
             value={selectedCurrency}
             onChange={handleCurrencyChange}
             className={styles.currencySelect}
