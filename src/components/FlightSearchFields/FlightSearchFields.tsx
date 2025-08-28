@@ -44,6 +44,9 @@ export function FlightSearchFields({
           </p>
         )}
         <div className={styles.currencyDropdown}>
+          <label htmlFor="currency" className={styles.visuallyHidden}>
+            Select currency
+          </label>
           <select
             id="currency"
             value={selectedCurrency}

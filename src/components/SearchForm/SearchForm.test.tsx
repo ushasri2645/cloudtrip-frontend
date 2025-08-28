@@ -719,6 +719,7 @@ describe("Test for FlightSearchForm />", () => {
       screen.getByText("Hurray, you can avail 5% discount on Round Trip 🎉")
     ).toBeInTheDocument();
   });
+
   it("should show error for invalid city", async () => {
     renderWithCitiesContext({ cities: ["Mumbai", "Delhi"] });
 
@@ -728,8 +729,9 @@ describe("Test for FlightSearchForm />", () => {
     fireEvent.change(screen.getByLabelText(/destination/i), {
       target: { value: "Delhi" },
     });
+    const today = new Date().toISOString().split("T")[0];
     fireEvent.change(screen.getByLabelText(/departure date/i), {
-      target: { value: "2025-08-01" },
+      target: { value: today },
     });
 
     fireEvent.click(screen.getByRole("button", { name: /search flights/i }));
